@@ -57,14 +57,14 @@ function Login() {
                         position:"relative",
                         top:"-35%",
                         left:"36%",
-                        height:"60%",
+                        height:"70%",
                         textAlign:"center",
                         width:"30%", borderRadius: "20px",
                         border:"1px solid #E1E7EC"}}>
             <div className = "card-body">
                             <form>
     
-                            <h2 className="text-center mb-4">Log In</h2>
+                            <h2 className="text-center mb-4" style={{marginTop: 20}}>Log In</h2>
                             {error && <Alert variant="danger">{error}</Alert>}
                                 <div className = "form-group mb-2" style={{marginTop:"5%"}}>
                                     <label className = "form-label">Username</label>
@@ -94,14 +94,14 @@ function Login() {
                                 >
                                 </input>
                             </div> 
-                           
-                             
-                        </form>     
-                        <button className = "btn btn-primary" style={{marginTop:"5%",width:"70%"}}
+                            <button className = "btn btn-primary" style={{marginTop:"5%",width:"70%",marginBottom:20}}
                              onClick={authenticateUser}
                              >
                                 Login
                             </button>
+                             
+                        </form>     
+                       
           
        </div>
 

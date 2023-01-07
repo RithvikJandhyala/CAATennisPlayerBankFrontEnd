@@ -16,14 +16,28 @@
   height: 27%;
   margin-right: 2%;
   margin-left: 2%;
+  top: -2px;
+  position: relative;
   cursor: pointer;
 
+  
+}
+.caa2{
+  width: 19%;
+  height: 27%;
+  margin-right: 2%;
+  margin-left: 2%;
+  top: -2px;
+  position: relative;
+  
   
 }
 .navbar .header {
     color: rgb(255, 255, 255);
   font-size: 35px;
-  border-radius: 5px
+  border-radius: 5px;
+  font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+ 
 }
 
 .menu-bars {
@@ -43,8 +57,8 @@
 
 .nav-menu {
   z-index: 12;
-  background-color: rgb(39, 58, 94);
-  width: 250px;
+  background-color: rgb(47, 71, 116);
+  width: 220px;
   height: 100vh;
   display: flex;
   justify-content: left;
@@ -52,12 +66,15 @@
   top: 0;
   left: -100%;
   transition: 850ms;
+ 
   
 }
 
 .nav-menu.active {
   left: 0;
   transition: 350ms;
+  border-bottom-right-radius: 40px;
+  border-top-right-radius: 40px;
 }
 
 .nav-text {
@@ -91,8 +108,8 @@
 }
 
 .navbar-toggle {
-  background-color: rgb(39, 58, 94);
-  width: 100%;
+  background-color:rgb(47, 71, 116);
+  width: 0%;
   height: 80px;
   display: flex;
   justify-content: start;

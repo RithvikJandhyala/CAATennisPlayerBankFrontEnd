@@ -9,19 +9,28 @@ import DropDownMenu from '../components/DropdownMenu';
 import * as CgIcons from 'react-icons/cg';
 import * as AiIcons from 'react-icons/ai';
 import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 const Players=()=>{ 
     const navigate=useNavigate();
     const [logo,setLogo]=useState("");
     useEffect(()=>{
         if(localStorage.username === undefined){
+            console.log("IBIBIB")
             navigate("/");
+
         }
         else{
             setLogo(require('../components/images/'+SchoolService.getSchoolImg(localStorage.school)));
+            console.log("IBIBIB");
         }
-        toast.success('Welcome Buddy !', {
-            position: toast.POSITION.TOP_CENTER
-        });
+        // show any toast messages
+        if(localStorage.message != undefined && localStorage.message.length > 0){
+            toast.success(localStorage.message, {
+                position: toast.POSITION.TOP_CENTER
+            });
+            localStorage.message ="";
+        }
         
     });
    
@@ -29,24 +38,15 @@ const Players=()=>{
     return(
         <div> 
             <header>               
-                <Navbar>
-                    <NavItem icon = {<CgIcons.CgProfile/>}>
-                        <DropDownMenu/>
-                    </NavItem>
-                    {/*<h5>
-                            <span class = "nameR">
-                                {localStorage.firstName} {localStorage.lastName}
-                            </span>
-                    </h5> */
-                    }  
-                </Navbar>
+                <Navbar/>
             </header>
             <section>
                 <div>
+                    <ToastContainer/>
                
                     <h5>
                     <span className = "name">                           
-                            {"asfgfgsfgsfgyfyfyuf"}
+                          
                            
                         </span>               
                         <span className = "school">                           
@@ -56,7 +56,7 @@ const Players=()=>{
                     </h5>
                     
                 </div>
-                <h1 className = "text-center"><AiIcons.AiOutlineUser style={{ marginBottom: 10 ,marginRight: 5}}/>My Players</h1>
+                <h1 className = "page-name" style = {{marginLeft: '17%',fontFamily: "revert-layer"}}><AiIcons.AiOutlineUser style={{ marginBottom: 10 ,marginRight: 5}}/>My Players</h1>
                 <PlayersReactTable/>
              </section>
         </div>

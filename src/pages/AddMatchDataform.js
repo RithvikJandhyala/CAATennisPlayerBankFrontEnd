@@ -116,7 +116,9 @@ const AddMatchDataform = () => {
                                     <br/>
                                     <div>
                                         <label className = "form-label">Match Date:</label> 
-                                        <DatePicker selected={matchDate} onChange={(date) => setMatchDate(date)} />
+                                        <DatePicker selected={matchDate} onChange={(date) => setMatchDate(date)} className = "form-control" style={{width: '20%'}} onKeyDown={(e) => {
+    e.preventDefault();
+}}/>
                                     </div>
                                     <br></br>
                                     <div>
@@ -133,6 +135,7 @@ const AddMatchDataform = () => {
                                                 }                                                                            
                                             }
                                         }}>Next</button> 
+                                        <button onClick={(e)=>{ navigate('/home');}} className = "btn btn-primary mb-2 player-right"  >Cancel</button>
                                     </div>
                                 </form>
                             </div>

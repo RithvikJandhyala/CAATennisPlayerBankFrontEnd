@@ -4,6 +4,7 @@ import {useNavigate} from 'react-router-dom'
 import Header from '../components/Header'
 import Navbar from '../components/Navbar';
 
+
 const AddPlayer = () => {
   const [name,setName] = useState('')
   const [singlesName,setSinglesName] = useState('')
@@ -38,7 +39,8 @@ const AddPlayer = () => {
             }
             setName(name);             
             const player = {name,school,division,playerType}
-            PlayerService.createPlayer(player).then((response) => {     
+            PlayerService.createPlayer(player).then((response) => {                     
+                localStorage.message = response.data;
                 navigate ('/home');
             }).catch(error => { 
                 console.log(error);
@@ -92,7 +94,6 @@ const AddPlayer = () => {
 
   return (
     <div>
- 
     <header>
         <Navbar /> 
      </header>

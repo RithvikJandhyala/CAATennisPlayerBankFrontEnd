@@ -34,7 +34,7 @@ const PastMatchesReactTable=()=>{
             accessor: 'division',        
           },
           {
-            Header: 'Match Type',
+            Header: 'Type',
             accessor: 'matchType',        
           },
           {
@@ -48,8 +48,8 @@ const PastMatchesReactTable=()=>{
           },
           {
             Header: 'Home Player ID',
-            accessor: 'player1ID', 
-            accessor: d => (<div>{d.player1ID} - {d.player1Name}</div>),
+            accessor: 'player1Name' ,
+           // accessor: d => (<div>{d.player1ID} - {d.player1Name}</div>),
             Cell: tableProps => (
                 <div>
                     <div>  
@@ -93,7 +93,8 @@ const PastMatchesReactTable=()=>{
    
       {
         Header: 'Away Player ID',
-        accessor:  d => (<div>{d.player2ID} - {d.player2Name}</div>),
+        accessor: 'player2Name',
+        //accessor:  d => (<div>{d.player2ID} - {d.player2Name}</div>),
         Cell: tableProps => (
             <div>
                 <div>  

@@ -4,16 +4,16 @@ import Header from './components/Header';
 import Login from './Login'; 
 import NavItem from './components/NavItem';
 import DropDownMenu from './components/DropdownMenu';
+import Profile from './components/Profile.js';
 import * as CgIcons from 'react-icons/cg';
 function App() { 
   return (
     
       <div>
          <header>
-           <Header>
-                  <NavItem icon = {<CgIcons.CgProfile/>}>
-                  </NavItem>            
-            </Header> 
+           <Header/>
+           {//<Profile/>  
+}
          </header>
         <section>
           <Login/>

@@ -9,7 +9,9 @@ import PlayerService from '../services/PlayerService';
 import * as BsIcons from 'react-icons/bs';
 import ReactToPrint from 'react-to-print';
 import SchoolService from '../services/SchoolService';
-
+import Alert from 'react-bootstrap/Alert';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';  
 
 const optionsHomeSingles = [];
 const optionsAwaySingles = [];
@@ -74,6 +76,7 @@ const AddMatchDataH=()=> {
     const navigate  = useNavigate();
     const [homeTeamLogo,setHomeTeamLogo]=useState("");
     const [awayTeamLogo,setAwayTeamLogo]=useState("");
+    const [error, setError] = useState("")
     useEffect(()=>{
         if(localStorage.username === undefined){
             navigate("/");
@@ -83,8 +86,22 @@ const AddMatchDataH=()=> {
             setAwayTeamLogo(require('../components/images/'+SchoolService.getSchoolImg(localStorage.awayTeam)));
             fetchData();
         }
-       
-        
+        //reset matches
+        for(var i = 0; i < singlePlayerRows.length; i++) 
+        {
+            singlePlayerRows[i].option1 = "";
+            singlePlayerRows[i].option2 = "";
+            singlePlayerRows[i].score1 = "";
+            singlePlayerRows[i].score2 = "";
+        }              
+        for(var i = 0; i < doublePlayerRows.length; i++) 
+        {
+            doublePlayerRows[i].option1 = "";
+            doublePlayerRows[i].option2 = "";
+            doublePlayerRows[i].score1 = "";
+            doublePlayerRows[i].score2 = "";
+        }         
+ 
     },[]);
    
 
@@ -148,7 +165,26 @@ const AddMatchDataH=()=> {
             var homeTeam = localStorage.school;
             var awayTeam = localStorage.awayTeam;
             var matchdetails = {player1ID,player2ID,player1Score,player2Score,division,matchType,matchDate,homeTeam,awayTeam};
-            if(isNaN(player1ID) || isNaN(player1ID)){}
+
+            if(isNaN(player1ID) && isNaN(player2ID) && player1Score =='' && player2Score ==''){
+                break;
+            }
+            else if(isNaN(player1ID) || isNaN(player2ID)){
+                setError("Invalid player details for Singles "+(i+1))
+                return;
+            }
+            else if(player1Score ==='' || player2Score ===''){
+                setError("Invalid score details for Singles "+(i+1))
+                return;
+            }
+            else if(Math.max(player1Score,player2Score) !=2){
+                setError("Invalid max score for Singles "+(i+1))
+                return;
+            }
+            else if(player1Score === 2 && player2Score === 2){
+                setError("Invalid  max score for Singles "+(i+1))
+                return;
+            }
             else matches.push(matchdetails);
         }
         for (var i = 0; i < doublePlayerRows.length; i++){
@@ -162,26 +198,57 @@ const AddMatchDataH=()=> {
             var homeTeam = localStorage.school;
             var awayTeam = localStorage.awayTeam;
             var matchdetails = {player1ID,player2ID,player1Score,player2Score,division,matchType,matchDate,homeTeam,awayTeam};
-            if(isNaN(player1ID) || isNaN(player1ID)){}
+            if(isNaN(player1ID) && isNaN(player2ID) && player1Score =='' && player2Score ==''){
+                break;
+            }
+            else if(isNaN(player1ID) || isNaN(player2ID)){
+                setError("Invalid details for Doubles "+(i+1))
+                return;
+            }
+            else if(player1Score ==='' || player2Score ===''){
+                setError("Invalid score details for Doubles "+(i+1))
+                return;
+            }
+            else if(Math.max(player1Score,player2Score) !=2){
+                setError("Invalid max score for Doubles "+(i+1))
+                return;
+            }
+            else if(player1Score ===2 && player2Score === 2){
+                setError("Invalid max score for Doubles "+(i+1))
+                return;
+            }
             else matches.push(matchdetails);
            
-        }                      
+        }
+         /* check if player is in more than one match */
+         for( var i = 0; i < matches.length; i++){
+            var player1ID = matches[i].player1ID;
+            var player2ID = matches[i].player2ID;
+            console.log("232:" + matches[i].player1ID + " " + matches[i].player2ID);
+           for(var j = i+1; j < matches.length; j++){
+            console.log("234:" + matches[j].player1ID + " " + matches[j].player2ID);
+               if(player1ID === matches[j].player1ID )
+               {
+                   setError("Player " + player1ID+ " added to more than one match"); 
+                   return;
+               }
+               if(player2ID === matches[j].player2ID){
+                   setError("Player " + player2ID+ " added to more than one match"); 
+                   return;
+               }
+           }
+       }
+        if(matches.length==0){
+            localStorage.message = "No Matches Added";
+            toast.warning(localStorage.message, {
+                position: toast.POSITION.TOP_CENTER
+            });
+            localStorage.message ="";
+            return;
+        }                                    
         MatchService.createMatches(matches).then((response) => {
-                navigate('/home');  
-                for(var i = 0; i < singlePlayerRows.length; i++) 
-                {
-                    singlePlayerRows[i].option1 = "";
-                    singlePlayerRows[i].option2 = "";
-                    singlePlayerRows[i].score1 = "";
-                    singlePlayerRows[i].score2 = "";
-                }              
-                for(var i = 0; i < doublePlayerRows.length; i++) 
-                {
-                    doublePlayerRows[i].option1 = "";
-                    doublePlayerRows[i].option2 = "";
-                    doublePlayerRows[i].score1 = "";
-                    doublePlayerRows[i].score2 = "";
-                }              
+                localStorage.message = "Match results added successfully";
+                navigate('/home');    
             }).catch(error => {
         })
     }   
@@ -200,7 +267,8 @@ const AddMatchDataH=()=> {
         <section>
             <form >
                 <div>
-                    <h5 class = "userdetail">
+                    {error && <Alert variant="danger">{error}</Alert>}
+                    <h5 className = "userdetail">
                         <span className = "name">
                             Home Team: {localStorage.school} 
                             <img  src= {homeTeamLogo} style={{ width: 30, height:30,marginLeft: 5 }}  /> 
@@ -254,7 +322,8 @@ const AddMatchDataH=()=> {
                                     placeholder = ""                               
                                     name={`player${index}score`}                                    
                                     onChange = {(e) =>{val.score1 = e.label;}}                                       
-                                    options={scoreOptions} 
+                                    options={scoreOptions}
+                                    isSearchable={false} 
                                                                                           
                                 />
                            </th>
@@ -274,7 +343,8 @@ const AddMatchDataH=()=> {
                                     placeholder = ""
                                     name={`player${index+1}Score`}                                    
                                     onChange = {(e) =>{ val.score2=e.label; }} 
-                                    options={scoreOptions}                                         
+                                    options={scoreOptions}
+                                    isSearchable={false}                                         
                                 />
                         </th>
                             
@@ -299,7 +369,8 @@ const AddMatchDataH=()=> {
                                     placeholder = ""
                                     name={`player${index}score`}                                    
                                     onChange = {(e) =>{val.score1 = e.label;}} 
-                                    options={scoreOptions}                                       
+                                    options={scoreOptions}
+                                    isSearchable={false}                                       
                                 />
                         </th>
                  
@@ -319,7 +390,8 @@ const AddMatchDataH=()=> {
                                     placeholder = ""
                                     name={`player${index+1}Score`}                                    
                                     onChange = {(e) =>{ val.score2=e.label; }} 
-                                    options={scoreOptions} 
+                                    options={scoreOptions}
+                                    isSearchable={false} 
                                 />
                         </th>
                             
