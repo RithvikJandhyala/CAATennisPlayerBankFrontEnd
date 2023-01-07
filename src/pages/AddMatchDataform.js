@@ -1,15 +1,10 @@
 import React, {useState,useEffect,useRef} from 'react'
-import DropdownList from "react-widgets/DropdownList";
-
-import Header from '../components/Header';
 import {useNavigate} from 'react-router-dom'
 import Navbar from '../components/Navbar';
-import MatchService from '../services/MatchService';
 import Select from 'react-select';
 import DatePicker from "react-datepicker";
-
 import "react-datepicker/dist/react-datepicker.css";
-import { FaWindowRestore, FaWindows } from 'react-icons/fa';
+
 
 const AddMatchDataform = () => {
     const options = [
@@ -29,7 +24,7 @@ const AddMatchDataform = () => {
     const awayTeams = [];
     for(var i = 0; i < options.length; i++) 
     {
-        if(options[i].value != localStorage.school)
+        if(options[i].value !== localStorage.school)
             awayTeams.push(options[i]);
     }
    
@@ -127,7 +122,7 @@ const AddMatchDataform = () => {
                                                 localStorage.matchDivision = division;    
                                                 localStorage.awayTeam = awayTeam;   
                                                 localStorage.matchDate = matchDate.toLocaleDateString(); 
-                                                if(division == "JH Boys" || division == "JH Girls"){
+                                                if(division === "JH Boys" || division === "JH Girls"){
                                                     navigate('/add-match-data-jh')
                                                 }
                                                 else{

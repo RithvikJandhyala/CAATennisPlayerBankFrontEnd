@@ -2,11 +2,7 @@ import React,{useEffect,useState} from 'react'
 import Navbar from '../components/Navbar';
 import PlayersReactTable from '../components/PlayersReactTable';
 import SchoolService from '../services/SchoolService';
-import BScottsdale from '../components/images/BScottsdale.png';
 import {useNavigate} from "react-router-dom";
-import NavItem from '../components/NavItem';
-import DropDownMenu from '../components/DropdownMenu';
-import * as CgIcons from 'react-icons/cg';
 import * as AiIcons from 'react-icons/ai';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -16,16 +12,13 @@ const Players=()=>{
     const [logo,setLogo]=useState("");
     useEffect(()=>{
         if(localStorage.username === undefined){
-            console.log("IBIBIB")
             navigate("/");
-
         }
         else{
             setLogo(require('../components/images/'+SchoolService.getSchoolImg(localStorage.school)));
-            console.log("IBIBIB");
         }
         // show any toast messages
-        if(localStorage.message != undefined && localStorage.message.length > 0){
+        if(localStorage.message !== undefined && localStorage.message.length > 0){
             toast.success(localStorage.message, {
                 position: toast.POSITION.TOP_CENTER
             });
@@ -51,7 +44,7 @@ const Players=()=>{
                         </span>               
                         <span className = "school">                           
                             {localStorage.school}
-                            <img  src= {logo} style={{ width: 50, height:50,marginLeft: 10 }} className = 'player1' />
+                            <img  src= {logo} style={{ width: 50, height:50,marginLeft: 10 }} className = 'player1' alt=""/>
                         </span>
                     </h5>
                     

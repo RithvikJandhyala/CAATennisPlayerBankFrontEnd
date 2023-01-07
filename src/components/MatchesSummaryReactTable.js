@@ -1,7 +1,6 @@
 import { useTable, useGlobalFilter } from 'react-table'
 import React,{useState, useEffect} from 'react';
 import MatchService from '../services/MatchService';
-import TableScrollbar from 'react-table-scrollbar';
 import {CSVLink} from 'react-csv';
 import win from "./images/check.png";
 import * as B from 'react-icons/md';

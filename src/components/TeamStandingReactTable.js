@@ -44,7 +44,7 @@ const TeamStandingReactTable=()=>{
             Header: 'Losses',
             accessor: 'losses',
             Cell: tableProps => (
-                <div style={{ color: "red" }}> {tableProps.row.original.wins} 
+                <div style={{ color: "red" }}> {tableProps.row.original.losses} 
                 </div> 
               ),        
           },

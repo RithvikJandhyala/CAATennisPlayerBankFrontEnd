@@ -1,7 +1,6 @@
 import React, {useState,useRef,useEffect} from 'react'
 import PlayerService from '../services/PlayerService'
 import {useNavigate} from 'react-router-dom'
-import Header from '../components/Header'
 import Navbar from '../components/Navbar';
 
 
@@ -14,7 +13,6 @@ const AddPlayer = () => {
   const [division,setDivision] = useState('')
   const [playerType,setPlayerType] = useState('')
   const navigate  = useNavigate();
-  const [logo,setLogo]=useState("");
     useEffect(()=>{
         if(localStorage.username === undefined){
             navigate("/");

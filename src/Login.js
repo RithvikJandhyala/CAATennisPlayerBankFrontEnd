@@ -43,24 +43,19 @@ function Login() {
  
 
   return (
-    <div  style={{backgroundColor: "#F5F5F5",height: "88%",textAlign:"center",backgroundImage:""}}>      
+    <div  style={{height: '90%' ,textAlign:"center",backgroundImage:""}}>      
     
-    <img src={Left} style={{position: "relative",
-        height: "50%",
-        left: "-54vh",
+    <img src={Left} style={{position: "relative",float: 'left',
+        height: 400,
+        marginLeft:50,
+        //left: "-45vh",
         top: "14vh"}}/>
-    <img src={Right} style={{position: "relative",
-        height: "50%",
-        left: "54vh",
+    <img src={Right} style={{position: "relative",float: 'right',
+        height: 400,
+        marginRight:50,
+        //left: "50vh",
         top: "14vh"}}/>
-        <div  style={{backgroundColor:"#E1E7EC",
-                        position:"relative",
-                        top:"-35%",
-                        left:"36%",
-                        height:"70%",
-                        textAlign:"center",
-                        width:"30%", borderRadius: "20px",
-                        border:"1px solid #E1E7EC"}}>
+        <div  className="login">
             <div className = "card-body">
                             <form>
     

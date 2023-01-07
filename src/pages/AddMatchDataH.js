@@ -224,9 +224,9 @@ const AddMatchDataH=()=> {
          for( var i = 0; i < matches.length; i++){
             var player1ID = matches[i].player1ID;
             var player2ID = matches[i].player2ID;
-            console.log("232:" + matches[i].player1ID + " " + matches[i].player2ID);
+           
            for(var j = i+1; j < matches.length; j++){
-            console.log("234:" + matches[j].player1ID + " " + matches[j].player2ID);
+           
                if(player1ID === matches[j].player1ID )
                {
                    setError("Player " + player1ID+ " added to more than one match"); 
