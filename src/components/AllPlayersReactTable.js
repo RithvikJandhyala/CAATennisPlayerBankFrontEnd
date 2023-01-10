@@ -2,12 +2,8 @@ import { useTable, useGlobalFilter } from 'react-table'
 import React,{useState, useEffect} from 'react';
 import PlayerService from '../services/PlayerService';
 import pic from "./images/player1.png";
-import Singles from "./images/singles.png";
 import Doubles from "./images/doubles.png";
-import TableScrollbar from 'react-table-scrollbar';
 import {CSVLink} from 'react-csv';
-import excel_pic from "./images/excel.png";
-import BScottsdale from "./images/BScottsdale.png";
 import * as RiIcons from 'react-icons/ri';
 import * as SiIcons from 'react-icons/si';
 import { GlobalFilter } from './GlobalFilter';

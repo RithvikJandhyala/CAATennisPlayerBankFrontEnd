@@ -2,10 +2,7 @@ import React,{useState} from 'react';
 import './App.css';
 import Left from './components/images/racket_left.png';
 import Right from './components/images/racket_right.png';
-import {
-  Routes,
-  Route,useNavigate
-} from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 import UserService from './services/UserService';
 import Alert from 'react-bootstrap/Alert' 
 
@@ -23,7 +20,7 @@ function Login() {
    
     UserService.authenticateUser(user).then((response) =>{
       
-        if(response.data==""){  
+        if(response.data===""){  
             setError("Invalid Login Credentails");
         }
         else 

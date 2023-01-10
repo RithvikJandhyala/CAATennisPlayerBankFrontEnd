@@ -1,9 +1,5 @@
 .navbar {
   background-color: rgb(39, 58, 94);
-  
-  padding: 10px;
-  padding-left: 20px;
-  padding-right: 20px;
   vertical-align: middle;
   
 }
@@ -12,8 +8,8 @@
   height: 5vh;  
 }
 .caa{
-  width: 19%;
-  height: 27%;
+  width: 20%;
+  height: 30%;
   margin-right: 2%;
   margin-left: 2%;
   top: -2px;
@@ -23,8 +19,8 @@
   
 }
 .caa2{
-  width: 19%;
-  height: 27%;
+  width: 20%;
+  height: 30%;
   margin-right: 2%;
   margin-left: 2%;
   top: -2px;
@@ -34,8 +30,8 @@
 }
 .navbar .header {
     color: rgb(255, 255, 255);
-  font-size: 35px;
-  border-radius: 5px;
+  font-size: 37px;
+  border-radius: 37px;
   font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
  
 }

@@ -5,7 +5,6 @@ import Navbar from '../components/Navbar';
 
 
 const AddPlayer = () => {
-  const [name,setName] = useState('')
   const [singlesName,setSinglesName] = useState('')
   const [player1Name,setPlayer1Name] = useState('')
   const [player2Name,setPlayer2Name] = useState('')
@@ -34,8 +33,7 @@ const AddPlayer = () => {
             }
             else{
                 var name = player1Name +"/"+player2Name            
-            }
-            setName(name);             
+            }         
             const player = {name,school,division,playerType}
             PlayerService.createPlayer(player).then((response) => {                     
                 localStorage.message = response.data;

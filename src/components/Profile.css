@@ -44,11 +44,12 @@
   margin: 7px;
   display: flex;
   align-items: center;
-  justify-content: center;
+  
   transition: filter 300ms;
 }
 .dropdown-button:hover{
   filter:brightness(2);
+  cursor: pointer;
 }
 .text{
   

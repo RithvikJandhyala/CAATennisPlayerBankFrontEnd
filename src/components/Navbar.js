@@ -10,9 +10,7 @@ import pic from "./images/CAA.png";
 import IdleModal from '../pages/IdleModal';
 import { useIdleTimer } from 'react-idle-timer';
 import Profile from './Profile.js';
-import {
-  useNavigate
-} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
 function Navbar(props) {
   const [sidebar, setSidebar] = useState(false);
@@ -36,7 +34,7 @@ function Navbar(props) {
               <FaIcons.FaBars className='menu-bars' onClick={showSidebar} />{' '}
               <img src = {pic} className = 'caa' onClick={()=>{navigate('/home')}} alt=""/>
               
-                Tennis Player Bank 
+                Tennis Platform 
             </h1>
             <div style={{width: 45,height:45, marginRight: 20,cursor: 'pointer',color:'white',fontSize:20}} className = "icon-button"onClick = {()=> setOpenProfile
             ((prev) => !prev)} >{localStorage.firstName !== undefined?localStorage.firstName.substring(0,1)+""+localStorage.lastName.substring(0,1):""}

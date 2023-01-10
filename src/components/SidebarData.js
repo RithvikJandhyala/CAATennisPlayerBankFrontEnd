@@ -1,14 +1,9 @@
 import React from 'react';
-//import * as FaIcons from 'react-icons/fa';
 import * as AiIcons from 'react-icons/ai';
-//import * as IoIcons from 'react-icons/io';
 import * as B from 'react-icons/md';
-
 import * as GiIcons from 'react-icons/gi';
 import * as RiIcons from 'react-icons/ri';
 import * as BsIcons from 'react-icons/bs';
-
-
 
 export const SidebarData = [
   {
@@ -24,19 +19,19 @@ export const SidebarData = [
     cName: 'nav-text'
   },
   {
-    title: 'Past Matches',
-    path: '/past-matches',
+    title: 'Player Matches',
+    path: '/player-matches',
     icon: <GiIcons.GiTennisCourt />,
     cName: 'nav-text'
   },
   {
-    title: 'Matches Summary',
+    title: 'Team Matches',
     path: '/matches-summary',
     icon: <B.MdSportsTennis/>,
     cName: 'nav-text'
   },
   {
-    title: 'Team Standing',
+    title: 'Team Standings',
     path: '/team-standing',
     icon:  <BsIcons.BsTrophy/>,
     cName: 'nav-text'

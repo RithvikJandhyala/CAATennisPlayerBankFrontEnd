@@ -1,13 +1,14 @@
 import { useTable, useGlobalFilter } from 'react-table'
 import React,{useState, useEffect} from 'react';
 import MatchService from '../services/MatchService';
-import TableScrollbar from 'react-table-scrollbar';
 import {CSVLink} from 'react-csv';
-import excel_pic from "./images/excel.png";
 import * as BsIcons from 'react-icons/bs';
 import * as SiIcons from 'react-icons/si';
 import { GlobalFilter } from './GlobalFilter';
 import SchoolService from '../services/SchoolService';
+import { ProgressBar } from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 const TeamStandingReactTable=()=>{ 
     const [data,setTeamStandings]=useState([]);
   useEffect(()=>{
@@ -53,25 +54,27 @@ const TeamStandingReactTable=()=>{
             accessor: 'ties',        
           },
           {
-            Header: 'Win Percentage',
+            Header: 'Win %    ',
             Cell: tableProps => (
-                tableProps.row.original.pct.toFixed(1)+"%"       
+              <div className="progressBar" >
+                <ProgressBar animated value={25} now={tableProps.row.original.pct.toFixed(1)} label={`${tableProps.row.original.pct.toFixed(1)}% `} />
+              </div>
             ),
             accessor: 'pct',        
           },
           {
-            Header: 'Points For',
-            accessor: 'pointsFor',
+            Header: 'Points Won',
+            accessor: 'winPoints',
             Cell: tableProps => (
-                <div style={{ color: "green" }}> {tableProps.row.original.pointsFor} 
+                <div style={{ color: "green" }}> {tableProps.row.original.winPoints} 
                 </div> 
               ),        
           },
           {
-            Header: 'Points Against',
-            accessor: 'pointsAgainst',
+            Header: 'Points Lost',
+            accessor: 'lossPoints',
             Cell: tableProps => (
-                <div style={{ color: "red" }}> {tableProps.row.original.pointsAgainst} 
+                <div style={{ color: "red" }}> {tableProps.row.original.lossPoints} 
                 </div> 
               ),               
           },

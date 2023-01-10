@@ -10,9 +10,7 @@ import * as BsIcons from 'react-icons/bs';
 import * as GiIcons from 'react-icons/gi';
 import { GlobalFilter } from './GlobalFilter';
 import ReactToPrint from 'react-to-print';
-import {
-    useNavigate
-  } from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
 const PlayersReactTable=()=>{ 
   let componentRef = useRef(); 
@@ -94,12 +92,12 @@ const PlayersReactTable=()=>{
         <div style={{ float: "right"}}>           
             <button type="button" className = "btn btn-primary mb-2" onClick={()=>{navigate('/add-player')}}  style={{marginRight: 10}}> <AiIcons.AiOutlineUser style={{ width: 20,height:20,marginRight: 5}}/>Add Players </button>
             <button type="button" className = "btn btn-primary mb-2 " onClick={()=>{navigate('/add-match-data-form')}} style={{marginRight: 10}}><GiIcons.GiTennisCourt style={{ width: 20,height:20,marginRight: 5}}/>Add Match Results</button>
-            <ReactToPrint
+             <ReactToPrint
                 trigger={()=>{
                     return  <button type="button" className = "btn btn-primary mb-2" style={{marginRight: 10}}>  <BsIcons.BsPrinter  style={{ width: 20,height:20,marginRight: 5}}/>  Print</button>
                 }}
                 content = {()=> componentRef}
-                documentTitle = 'new document'
+                documentTitle = {localStorage.school}
                 pageStyle = "print"
                 className = "print"
             /> 

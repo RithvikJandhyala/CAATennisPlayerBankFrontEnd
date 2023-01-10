@@ -17,7 +17,7 @@ const IdleModal=({idle,setIdle})=>{
     return(
         <Modal isOpen={idle} style={customStyles}>
         <div>
-            <h1>Your session is about to End</h1>
+            <h1>Your session is about to end</h1>
            < div className = "card-body" style={{textAlign:"center"}}>
             <button className = "btn btn-primary" style={{width:"20%" ,marginRight:"2%",display:"inline"}} onClick={()=>{setIdle(false)}}>Continue</button>
             <button className = "btn btn-primary" style={{width:"20%",display:"inline"}} onClick={()=>{

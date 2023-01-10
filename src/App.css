@@ -145,11 +145,24 @@
   background-color: #E1E7EC;
   border-radius: 20px;
   border: 1px solid #E1E7EC;
+  
     position: fixed;
     width: 30%;
     text-align: center;
     top: 20%;
     left: 50%;
     height: 450px;
+    transform: translate(-50%, 0);
+}
+.teamstanding{
+  background-color: #eeeded;
+  border-radius: 20px;
+  border: 1px solid #E1E7EC;
+  
+    position: fixed;
+    width: 90%;
+    text-align: center;
+    top: 20%;
+    left: 50%;
     transform: translate(-50%, 0);
 }

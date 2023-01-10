@@ -35,13 +35,9 @@ const Players=()=>{
             </header>
             <section>
                 <div>
-                    <ToastContainer/>
-               
+                    <ToastContainer/>               
                     <h5>
-                    <span className = "name">                           
-                          
-                           
-                        </span>               
+                        <span className = "name"/>                   
                         <span className = "school">                           
                             {localStorage.school}
                             <img  src= {logo} style={{ width: 50, height:50,marginLeft: 10 }} className = 'player1' alt=""/>
