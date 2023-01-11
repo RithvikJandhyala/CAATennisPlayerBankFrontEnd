@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React,{useState,useEffect} from 'react';
 import './App.css';
 import Left from './components/images/racket_left.png';
 import Right from './components/images/racket_right.png';
@@ -12,7 +12,13 @@ function Login() {
   const navigate=useNavigate();
   const [username,setUserName]=useState('');
   const [password,setPassword]=useState('');
-  const [error, setError] = useState("")
+  const [error, setError] = useState("");
+
+  useEffect(()=>{
+    if(localStorage.username !== undefined){
+        navigate("/home");
+    }
+    });
   
   const authenticateUser= (e)=>{
     e.preventDefault();

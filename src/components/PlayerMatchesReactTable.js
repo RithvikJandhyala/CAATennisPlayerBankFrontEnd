@@ -137,7 +137,7 @@ const PlayerMatchesReactTable=()=>{
   const {globalFilter} = state
   return (
     <div>
-         <h1 className = "text-center"><GiIcons.GiTennisCourt style={{ marginBottom: 10 ,marginRight: 5}}/>Player Matches</h1>
+         <h1 className = "text-center"><GiIcons.GiTennisCourt style={{ marginBottom: 10 ,marginRight: 5}}/>Past Matches</h1>
          <div style={{float:"right",paddingRight:10}}>
             
             <CSVLink data = {data} filename = 'AllPlayerMatches'> <button type="button" className = "btn btn-primary mb-2">  <SiIcons.SiMicrosoftexcel  style={{ width: 20,height:20,marginRight: 5}}/>Download</button> </CSVLink>

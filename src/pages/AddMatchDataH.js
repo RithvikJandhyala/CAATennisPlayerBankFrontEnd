@@ -269,7 +269,7 @@ const AddMatchDataH=()=> {
         }                                    
         MatchService.createMatches(matches).then((response) => {
                 localStorage.message = "Match results added successfully";
-                navigate('/player-matches');    
+                navigate('/past-matches');    
             }).catch(error => {
         })
     }   

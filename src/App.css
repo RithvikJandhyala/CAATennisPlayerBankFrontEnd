@@ -166,3 +166,33 @@
     left: 50%;
     transform: translate(-50%, 0);
 }
+.helpcontainer{
+  max-width: 1000px;
+  width: 100%;
+  margin: auto;
+}
+.helpcards{
+  display:flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.helpcard{
+  flex: 0 0 calc(33.33% -20px);
+  max-width: calc(33.33% -20px);
+  width:100%;
+  background:#eaf4ff;
+  border-radius:20px;
+  padding: 20px;
+  padding-bottom: 5px;
+  margin-bottom: 40px;
+  transition: 0.3s;
+  border: 2px solid transparent
+}
+.helpcard:hover{
+  border-color: #1d39c4;
+}
+.btn{
+  border: none;
+  outline: none;
+}

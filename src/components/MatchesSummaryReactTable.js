@@ -82,7 +82,7 @@ const MatchesSummaryReactTable=()=>{
   const {globalFilter} = state
   return (
     <div>
-         <h1 className = "text-center"><B.MdSportsTennis style={{ marginBottom: 10 ,marginRight: 5}}/>Team Matches</h1>
+         <h1 className = "text-center"><B.MdSportsTennis style={{ marginBottom: 10 ,marginRight: 5}}/>Matches Summary</h1>
          <div style={{float:"right",paddingRight:10}}>
           <CSVLink data = {data} filename = 'AllTeamMatches'> <button type="button" className = "btn btn-primary mb-2">  <SiIcons.SiMicrosoftexcel  style={{ width: 20,height:20,marginRight: 5}}/>Download</button> </CSVLink>
         </div>         

@@ -278,7 +278,7 @@ const AddMatchDataJH=()=> {
         MatchService.createMatches(matches).then((response) => {
                 
                 localStorage.message = "Match Results Added Successfully";
-                navigate('/player-matches');  
+                navigate('/past-matches');  
                 
             }).catch(error => {
                 console.log(error);

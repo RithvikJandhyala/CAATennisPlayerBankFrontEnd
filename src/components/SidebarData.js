@@ -19,13 +19,13 @@ export const SidebarData = [
     cName: 'nav-text'
   },
   {
-    title: 'Player Matches',
-    path: '/player-matches',
+    title: 'Past Matches',
+    path: '/past-matches',
     icon: <GiIcons.GiTennisCourt />,
     cName: 'nav-text'
   },
   {
-    title: 'Team Matches',
+    title: 'Matches Summary',
     path: '/matches-summary',
     icon: <B.MdSportsTennis/>,
     cName: 'nav-text'
