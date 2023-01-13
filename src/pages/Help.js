@@ -7,14 +7,14 @@ function Help() {
     const [cards] = useState([
         {
             title: 'Contact Us:',
-            text: 'For additional questions, email ricky.jandhyala@gmail.com'
+            text: 'For additional questions, email aweber@azcaapreps.com'
         },
         {
             title: 'How To Use The Platform',
-            text: 'If unsure how to use the program, watch the demo video below'
+            text: 'If unsure how to use the platform, watch the demo video below'
         },{
             title: 'Creator',
-            text: 'Platform created and designed by Rithvik Jandhyala. This Platform was created from scratch using React and MongoDB. Copyright @CAATennisPlatform'
+            text: 'Platform created and designed by Rithvik Jandhyala. This Platform was created using React, Springboot and MongoDB. Copyright @CAATennisPlatform'
         }
     ])
   return (

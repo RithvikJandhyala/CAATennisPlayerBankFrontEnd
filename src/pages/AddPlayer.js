@@ -95,7 +95,7 @@ const AddPlayer = () => {
      </header>
         <section>
          <br/><br/>
-    <div className = "container">
+    <div className = "container" style={{paddingRight:'0.75rem',paddingLeft:'0.75rem',marginLeft: 'auto',marginRight:'auto'}}>
         <div className = "row">
             <div className = "card col-md-6 offset-md-3 offset-md-3">
                 <div>

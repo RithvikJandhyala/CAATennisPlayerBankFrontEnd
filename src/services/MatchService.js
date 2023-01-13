@@ -1,9 +1,9 @@
 import axios from 'axios'
-
-const MATCHES_REST_API_URL ='http://localhost:8080/findAllMatches';
-const MATCHES_DAY_SUMMARY_REST_API_URL ='http://localhost:8080/findAllMatchDaySummary';
-const TEAM_STANDING_REST_API_URL ='http://localhost:8080/findTeamStanding';
-const MATCHES_CREATE_REST_API_URL ='http://localhost:8080/addMatches';
+const SERVER_URL = 'http://localhost:8080';
+const MATCHES_REST_API_URL = SERVER_URL + '/findAllMatches';
+const MATCHES_DAY_SUMMARY_REST_API_URL = SERVER_URL + '/findAllMatchDaySummary';
+const TEAM_STANDING_REST_API_URL = SERVER_URL + '/findTeamStanding';
+const MATCHES_CREATE_REST_API_URL = SERVER_URL + '/addMatches';
 
 class MatchService {
     getMatches(){

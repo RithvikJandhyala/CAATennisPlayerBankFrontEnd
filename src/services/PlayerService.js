@@ -1,9 +1,9 @@
 import axios from 'axios'
-
-const PLAYERS_REST_API_URL ='http://localhost:8080/findAllPlayers';
-const PLAYERS_BY_SCHOOL_REST_API_URL ='http://localhost:8080/findPlayersBySchool';
-const PLAYERS_BY_SCHOOL_DIVISION_PLAYERTYPE_REST_API_URL ='http://localhost:8080/findPlayersBySchoolAndDivisionAndPlayerType';
-const PLAYER_CREATE_REST_API_URL ='http://localhost:8080/addPlayer';
+const SERVER_URL = 'http://localhost:8080';
+const PLAYERS_REST_API_URL = SERVER_URL + '/findAllPlayers';
+const PLAYERS_BY_SCHOOL_REST_API_URL = SERVER_URL + '/findPlayersBySchool';
+const PLAYERS_BY_SCHOOL_DIVISION_PLAYERTYPE_REST_API_URL = SERVER_URL + '/findPlayersBySchoolAndDivisionAndPlayerType';
+const PLAYER_CREATE_REST_API_URL = SERVER_URL + 'http://localhost:8080/addPlayer';
 
 
 class PlayerService {

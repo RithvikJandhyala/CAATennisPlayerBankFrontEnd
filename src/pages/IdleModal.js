@@ -24,7 +24,7 @@ const IdleModal=({idle,setIdle})=>{
                 navigate('/');
                 setIdle(false);
                 localStorage.clear()}}>
-                Signout
+                Log Out
             </button>
             </div>
         </div>
