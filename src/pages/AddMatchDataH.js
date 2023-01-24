@@ -18,14 +18,28 @@ const SINGLES = "Singles";
 const DOUBLES = "Doubles";
 const NOSHOW = 0;
 const NOSELECTION = -1;
-const MAX_SCORE = 2;
+const SINGLES_MAX_SCORE = 2;
+const DOUBLES_MAX_SCORE = 10;
 
 const scoreOptions = [ 
   { value: 0, label: 0},
   { value: 1, label: 1},
   { value: 2, label: 2}
-
 ]
+
+const doublesScoreOptions = [ 
+    { value: 0, label: 0},
+    { value: 1, label: 1},
+    { value: 2, label: 2},    
+    { value: 3, label: 3},
+    { value: 4, label: 4},
+    { value: 5, label: 5},
+    { value: 6, label: 6},
+    { value: 7, label: 7},
+    { value: 8, label: 8},
+    { value: 9, label: 9},
+    { value: 10, label: 10}
+  ]
 const singlePlayerRows=[
     {
       option1:"",
@@ -166,7 +180,7 @@ const AddMatchDataH=()=> {
     function isValidMatch(match,matchType, maxScore, num){
         // No show should have value 0
        if ((match.player1ID === NOSHOW &&  match.player1Score !==0) || (match.player2ID === NOSHOW &&  match.player2Score !==0)){
-            setError(matchType + " "+ num + ": Set score to 0 for No Show")
+            setError(matchType + " "+ num + ": Set score to 0 for No Show");
             return false;
         }
         // If No Show filled for both players, it is valid match
@@ -175,22 +189,22 @@ const AddMatchDataH=()=> {
         }
         //check players are filled in 
         else if(match.player1ID === NOSELECTION || match.player2ID === NOSELECTION){
-            setError("Invalid player details for "+ matchType + " "+ num)
+            setError( matchType + " "+ num +": Invalid player details");
             return false;
         }   
         // check scores are filled in         
         else if(match.player1Score ==='' || match.player2Score ===''){
-            setError("Invalid score details for "+ matchType + " "+ num)
+            setError( matchType + " "+ num + ": Invalid scores");
             return false;
         }
         // check one of the player has max score
         else if(Math.max(match.player1Score,match.player2Score) !== maxScore){
-            setError("Invalid max score for "+ matchType + " "+ num)
+            setError(matchType + " "+ num +": Max score should be "+maxScore );
             return false;
         }
         // check that both players dont have match score
         else if(match.player1Score === maxScore && match.player2Score ===  maxScore){
-            setError("Invalid max score for "+ matchType + " "+ num)
+            setError( matchType + " "+ num + ": Invalid scores");
             return false;
         }
         return true;
@@ -221,7 +235,7 @@ const AddMatchDataH=()=> {
             var homeTeam = localStorage.school;
             var awayTeam = localStorage.awayTeam;
             var matchdetails = {player1ID,player2ID,player1Score,player2Score,division,matchType,matchDate,homeTeam,awayTeam};
-            if(isValidMatch(matchdetails,SINGLES,MAX_SCORE, i+1)) 
+            if(isValidMatch(matchdetails,SINGLES,SINGLES_MAX_SCORE, i+1)) 
                 matches.push(matchdetails);
             else return;
         }
@@ -237,7 +251,7 @@ const AddMatchDataH=()=> {
             var homeTeam = localStorage.school;
             var awayTeam = localStorage.awayTeam;
             var matchdetails = {player1ID,player2ID,player1Score,player2Score,division,matchType,matchDate,homeTeam,awayTeam};
-            if(isValidMatch(matchdetails,DOUBLES,MAX_SCORE, i+1))
+            if(isValidMatch(matchdetails,DOUBLES,DOUBLES_MAX_SCORE, i+1))
                 matches.push(matchdetails);     
             else return;      
         }
@@ -385,7 +399,7 @@ const AddMatchDataH=()=> {
                                     placeholder = ""
                                     name={`player${index}score`}                                    
                                     onChange = {(e) =>{val.score1 = e.label;}} 
-                                    options={scoreOptions}
+                                    options={doublesScoreOptions}
                                     isSearchable={false}                                       
                                 />
                         </th>
@@ -406,7 +420,7 @@ const AddMatchDataH=()=> {
                                     placeholder = ""
                                     name={`player${index+1}Score`}                                    
                                     onChange = {(e) =>{ val.score2=e.label; }} 
-                                    options={scoreOptions}
+                                    options={doublesScoreOptions}
                                     isSearchable={false} 
                                 />
                         </th>

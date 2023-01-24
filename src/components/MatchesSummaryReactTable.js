@@ -7,13 +7,20 @@ import * as B from 'react-icons/md';
 import * as SiIcons from 'react-icons/si';
 import { GlobalFilter } from './GlobalFilter';
 import SchoolService from '../services/SchoolService';
+import ClipLoader from "react-spinners/ClipLoader";
 const MatchesSummaryReactTable=()=>{ 
   const [data,setMatchesDaySummary]=useState([]);
+  const [loading,setLoading] = useState(false);
   useEffect(()=>{
-      MatchService.getMatchesDaySummary().then((response) => {           
-          setMatchesDaySummary(response.data);
+    async function fetchData() {
+      setLoading(true);
+      //await sleep(4000);
+      await MatchService.getMatchesDaySummary().then((response) => {           
+        setMatchesDaySummary(response.data);
       });
-
+      setLoading(false);  
+    }
+    fetchData();      
   },[]);
 
   const columns = React.useMemo(
@@ -102,6 +109,19 @@ const MatchesSummaryReactTable=()=>{
               </tr>
             ))}
           </thead>
+          {loading?
+                <div style={{marginBottom:0}}>                    
+                    <ClipLoader
+                        color={"#0d6efd"}
+                        loading={loading}        
+                        size = {50}
+    
+                        cssOverride={{marginLeft:'320%',marginRight:'auto',marginTop:'20%'}}          
+                    />
+                </div>
+                :
+                <></>    
+            }
           <tbody {...getTableBodyProps()}>
             {rows.map(row => {
               prepareRow(row)

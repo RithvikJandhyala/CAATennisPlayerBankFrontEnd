@@ -3,17 +3,12 @@ import './App.css';
 import Header from './components/Header'; 
 import Login from './Login'; 
 function App() { 
-  return (
-    
-      <div>
-         <header>
-           <Header/>
-         </header>
+  return (    
+      <div >
         <section>
           <Login/>
         </section>
       </div>
-       
   );
 }
 

@@ -7,7 +7,7 @@ export const GlobalFilter = ({filter,setFilter}) => {
             <input 
                 value = {filter || ''}
                 onChange = {e => setFilter(e.target.value)}
-                placeholder = 'search here'
+                placeholder = 'Search Here'
                 className = "inputsearch"/>
 
 

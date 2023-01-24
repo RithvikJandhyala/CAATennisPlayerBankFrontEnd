@@ -2,7 +2,7 @@ import React, {useState,useRef,useEffect} from 'react'
 import PlayerService from '../services/PlayerService'
 import {useNavigate} from 'react-router-dom'
 import Navbar from '../components/Navbar';
-
+import BarLoader from "react-spinners/BarLoader";
 
 const AddPlayer = () => {
   const [singlesName,setSinglesName] = useState('')
@@ -24,25 +24,25 @@ const AddPlayer = () => {
   const inputDivision = useRef();
   const inputPlayerType = useRef();
   
-
-  const savePlayer = (e) => {
+  const [loading,setLoading] = useState(false);
+  const savePlayer = async(e) => {
         e.preventDefault();   
         if(isValidForm()){
             if(playerType === "Singles"){
-                var name = singlesName;
+                var name = singlesName.trim();
             }
             else{
-                var name = player1Name +"/"+player2Name            
-            }         
+                var name = player1Name.trim() +"/"+player2Name.trim();         
+            }
+            setLoading(true);         
             const player = {name,school,division,playerType}
-            PlayerService.createPlayer(player).then((response) => {                     
+            await PlayerService.createPlayer(player).then((response) => {                     
                 localStorage.message = response.data;
                 navigate ('/home');
-            }).catch(error => { 
-                console.log(error);
             })
+            setLoading(false);             
         }
-  }
+  };
   const isValidForm = () => {
     var valid = true;
         if(playerType.length < 1){
@@ -94,7 +94,23 @@ const AddPlayer = () => {
         <Navbar /> 
      </header>
         <section>
-         <br/><br/>
+        
+        
+           
+     <br/> {loading?
+                <div style={{marginBottom:0}}>
+                    
+                    <BarLoader
+                        color={"#0d6efd"}
+                        loading={loading}        
+                        height = {4}
+                        width = {200}
+                        cssOverride={{marginLeft:'44%'}}          
+                    />
+                </div>
+                :
+                <></>    
+            }<br/>
     <div className = "container" style={{paddingRight:'0.75rem',paddingLeft:'0.75rem',marginLeft: 'auto',marginRight:'auto'}}>
         <div className = "row">
             <div className = "card col-md-6 offset-md-3 offset-md-3">
@@ -173,10 +189,14 @@ const AddPlayer = () => {
                                     />
                                 </div>
                             <br/>
-                            <button type="submit" className = "btn btn-primary mb-2 player-right player-left" onClick = {(e) =>savePlayer(e)}>
+                            <button type="submit" className = "btn btn-primary mb-2 player-right player-left" 
+                                     disabled = {loading}
+                                     onClick = {(e) =>savePlayer(e)}>
                                 Submit
                             </button>
-                            <button className = "btn btn-primary mb-2 player-right" onClick = {(e) =>navigate ('/home')}>
+                            <button className = "btn btn-primary mb-2 player-right"
+                                    disabled = {loading}                                    
+                                    onClick = {(e) =>navigate ('/home')}>
                                 Cancel
                             </button>
                         </form>

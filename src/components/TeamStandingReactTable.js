@@ -8,14 +8,20 @@ import { GlobalFilter } from './GlobalFilter';
 import SchoolService from '../services/SchoolService';
 import { ProgressBar } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-
+import ClipLoader from "react-spinners/ClipLoader";
 const TeamStandingReactTable=()=>{ 
     const [data,setTeamStandings]=useState([]);
+    const [loading,setLoading] = useState(false);
   useEffect(()=>{
-       MatchService.getTeamStanding().then((response) => {           
+    async function fetchData() {
+     
+      setLoading(true);
+      await MatchService.getTeamStanding().then((response) => {           
         setTeamStandings(response.data);
       });
-
+      setLoading(false);  
+    }
+    fetchData();    
   },[]);
 
   const columns = React.useMemo(
@@ -115,6 +121,20 @@ const TeamStandingReactTable=()=>{
               </tr>
             ))}
           </thead>
+          {loading?
+                <div style={{marginBottom:0}}>                    
+                    <ClipLoader
+                        color={"#0d6efd"}
+                        loading={loading}        
+                        size = {50}
+    
+                        cssOverride={{marginLeft:'360%',marginRight:'auto',marginTop:'20%'}}          
+                    />
+                </div>
+                :
+                <></>    
+            }
+         
           <tbody {...getTableBodyProps()}>
             {rows.map(row => {
               prepareRow(row)

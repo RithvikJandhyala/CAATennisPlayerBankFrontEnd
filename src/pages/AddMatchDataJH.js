@@ -10,6 +10,7 @@ import SchoolService from '../services/SchoolService';
 import Alert from 'react-bootstrap/Alert';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'; 
+import BarLoader from "react-spinners/BarLoader";
 const optionsHomeSingles = [{value:0,label:'No Show'}];
 const optionsAwaySingles = [{value:0,label:'No Show'}];
 const optionsHomeDoubles = [{value:0,label:'No Show'}];
@@ -19,6 +20,10 @@ const DOUBLES = "Doubles";
 const NOSHOW = 0;
 const NOSELECTION = -1;
 const MAX_SCORE = 6;
+
+const sleep = ms => new Promise(
+    resolve => setTimeout(resolve, ms)
+  );
 
 
 const scoreOptions = [ 
@@ -80,6 +85,7 @@ const AddMatchDataJH=()=> {
     const [homeTeamLogo,setHomeTeamLogo]=useState("");
     const [awayTeamLogo,setAwayTeamLogo]=useState("");
     const [error, setError] = useState("")
+    const [loading,setLoading] = useState(false);
 
     useEffect(()=>{
         if(localStorage.username === undefined){
@@ -212,7 +218,9 @@ const AddMatchDataJH=()=> {
             return parseInt(selPlayer.substring(0,4));        
     }
 
-    const saveMatches = (e) => {
+
+    const saveMatches = async(e) => {
+             
         var matches = [];
         matches.length = 0;       
         e.preventDefault();
@@ -274,15 +282,19 @@ const AddMatchDataJH=()=> {
             });
             localStorage.message ="";
             return;
-        }                      
-        MatchService.createMatches(matches).then((response) => {
-                
+        }
+        
+        setLoading(true);
+        //await sleep(5000);                       
+        await MatchService.createMatches(matches).then((response) => {                
                 localStorage.message = "Match Results Added Successfully";
-                navigate('/past-matches');  
-                
-            }).catch(error => {
-                console.log(error);
+                navigate('/past-matches');                  
+        }).catch(error1 => { 
+            console.log(error1);
+            setError("Failed to Create Match");
+            setLoading(false);      
         })
+        setLoading(false);   
     }   
 
    return (
@@ -310,7 +322,22 @@ const AddMatchDataJH=()=> {
                     </h5>
                 </div>
                 <h1 className = "text-center">Add {localStorage.matchDivision} Match Results </h1> 
+                {loading?
+                <div style={{marginTop: 0}}>
+                    
+                    <BarLoader
+                        color={"#0d6efd"}
+                        loading={loading}        
+                        height = {4}
+                        width = {200}
+                        cssOverride={{marginLeft:'44%'}}          
+                    />
+                </div>
+                :
+                <></>    
+            }
                 <div style={{ float: "right"}}>
+                
                 <ReactToPrint
                     trigger={()=>{
                         return  <button type="button" className = "btn btn-primary mb-2" style={{marginRight: 10}}>  <BsIcons.BsPrinter  style={{ width: 20,height:20,marginRight: 5}}/>  Print</button>
@@ -431,8 +458,8 @@ const AddMatchDataJH=()=> {
                 </table>
            
             </form>
-            <button onClick={(e)=>{ saveMatches(e);}} className = "btn btn-primary mb-2 player-right player-left" >Submit</button>
-            <button onClick={(e)=>{ navigate('/home');}} className = "btn btn-primary mb-2 player-right"  >Cancel</button>
+            <button onClick={(e)=>{ saveMatches(e);}} className = "btn btn-primary mb-2 player-right player-left"  disabled = {loading}>Submit</button>
+            <button onClick={(e)=>{ navigate('/home');}} className = "btn btn-primary mb-2 player-right"   disabled = {loading}>Cancel</button>
             </section>
         </div>
     )

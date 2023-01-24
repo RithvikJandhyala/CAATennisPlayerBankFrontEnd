@@ -10,15 +10,27 @@ import { GlobalFilter } from './GlobalFilter';
 import * as SiIcons from 'react-icons/si';
 import SchoolService from '../services/SchoolService';
 import {useNavigate} from "react-router-dom";
-
+import ClipLoader from "react-spinners/ClipLoader";
 const PlayerMatchesReactTable=()=>{ 
   const [data,setMatches]=useState([]);
   const navigate=useNavigate();
+  const [loading,setLoading] = useState(false);
+  const sleep = ms => new Promise(
+    resolve => setTimeout(resolve, ms)
+  );
+
   useEffect(()=>{
-      MatchService.getMatches().then((response) => {           
+    async function fetchData() {
+     
+      setLoading(true);
+      //await sleep(4000);
+      await MatchService.getMatches().then((response) => {           
           setMatches(response.data);
       });
-
+      setLoading(false);  
+     
+    }
+    fetchData();      
   },[]);
 
   const columns = React.useMemo(
@@ -60,14 +72,10 @@ const PlayerMatchesReactTable=()=>{
                             <img  src= {Doubles} style={{ width: 35, height:35 }} className = 'player1' />
                         }
                         {tableProps.row.original.player1ID} - {tableProps.row.original.player1Name}
-                        {((tableProps.row.original.division === 'JH Boys'||tableProps.row.original.division === 'JH Girls') && tableProps.row.original.player1Score === 6)?
+                        {(tableProps.row.original.player2Score < tableProps.row.original.player1Score)?
                             <img  src= {win} style={{ width: 15, height:15,marginLeft:5 }} className = 'player1' />:
                             <></>
                         }
-                        {((tableProps.row.original.division === 'HS Boys'||tableProps.row.original.division === 'HS Girls') && tableProps.row.original.player1Score === 2)?
-                            <img  src= {win} style={{ width: 15, height:15,marginLeft:5 }} className = 'player1' />:
-                            <></>
-                        }  
                     </div>
                    
 
@@ -103,15 +111,11 @@ const PlayerMatchesReactTable=()=>{
                 }
                
                 {tableProps.row.original.player2ID} - {tableProps.row.original.player2Name}
-                {((tableProps.row.original.division === 'JH Boys'||tableProps.row.original.division === 'JH Girls') && tableProps.row.original.player2Score === 6)?
+                {(tableProps.row.original.player2Score > tableProps.row.original.player1Score)?
                 <img  src= {win} style={{ width: 15, height:15,marginLeft:5 }} className = 'player1' />:
                 <></>
               }
-              {((tableProps.row.original.division === 'HS Boys'||tableProps.row.original.division === 'HS Girls') && tableProps.row.original.player2Score === 2)?
-                <img  src= {win} style={{ width: 15, height:15,marginLeft:5 }} className = 'player1' />:
-                <></>
-              }
-               
+             
                 </div>               
             </div>
           ),
@@ -145,6 +149,7 @@ const PlayerMatchesReactTable=()=>{
         <GlobalFilter filter = {globalFilter} setFilter = {setGlobalFilter}/>
        {// <TableScrollbar height = "70vh"  style={{ marginBottom: 10 ,marginRight: 5,border:'1px solid'}}>
         }
+        
         <div style={{ maxWidth: '99.9%' }}>
           <>
           
@@ -158,6 +163,20 @@ const PlayerMatchesReactTable=()=>{
               </tr>
             ))}
           </thead>
+          {loading?
+                <div style={{marginBottom:0}}>                    
+                    <ClipLoader
+                        color={"#0d6efd"}
+                        loading={loading}        
+                        size = {50}
+    
+                        cssOverride={{marginLeft:'370%',marginRight:'auto',marginTop:'20%'}}          
+                    />
+                </div>
+                :
+                <></>    
+            }
+         
           <tbody {...getTableBodyProps()}>
             {rows.map(row => {
               prepareRow(row)

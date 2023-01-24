@@ -11,16 +11,23 @@ import * as GiIcons from 'react-icons/gi';
 import { GlobalFilter } from './GlobalFilter';
 import ReactToPrint from 'react-to-print';
 import {useNavigate} from "react-router-dom";
-
+import ClipLoader from "react-spinners/ClipLoader";
 const PlayersReactTable=()=>{ 
   let componentRef = useRef(); 
   const navigate=useNavigate();
   const [data,setPlayers]=useState([]);
+  const [loading,setLoading] = useState(false);
   useEffect(()=>{
-  
-      PlayerService.getPlayersBySchool(localStorage.school).then((response) => {           
+    async function fetchData() {
+      setLoading(true);
+      //await sleep(4000);
+      await PlayerService.getPlayersBySchool(localStorage.school).then((response) => {           
           setPlayers(response.data);
       });
+      setLoading(false);  
+    }
+    fetchData();  
+      
 
   },[]);
 
@@ -100,43 +107,49 @@ const PlayersReactTable=()=>{
                 documentTitle = {localStorage.school}
                 pageStyle = "print"
                 className = "print"
-            /> 
-           
+              />
         </div>
-        
-            <GlobalFilter filter = {globalFilter} setFilter = {setGlobalFilter} />
-        
-       {// <TableScrollbar height = "70vh"  style={{ marginBottom: 10 ,marginRight: 5,border:'1px solid'}}>
-        }
-          
-        
+        <GlobalFilter filter = {globalFilter} setFilter = {setGlobalFilter} />
         <div  ref={(e1) => (componentRef = e1)} style={{ maxWidth: '99.9%' }}> 
-        <table {...getTableProps()} className = "table table-striped" style ={{height:20}}>
-          <thead>
-            {headerGroups.map(headerGroup => (
-              <tr {...headerGroup.getHeaderGroupProps()}>
-                {headerGroup.headers.map(column => (
-                  <th {...column.getHeaderProps()} style = {{background: 'white'}}> {column.render('Header')} </th>
+            <table {...getTableProps()} className = "table table-striped" style ={{height:20}}>
+              <thead>
+                {headerGroups.map(headerGroup => (
+                  <tr {...headerGroup.getHeaderGroupProps()}>
+                    {headerGroup.headers.map(column => (
+                      <th {...column.getHeaderProps()} style = {{background: 'white'}}> {column.render('Header')} </th>
+                    ))}
+                  </tr>
                 ))}
-              </tr>
-            ))}
-          </thead>
-          <tbody {...getTableBodyProps()}>
-            {rows.map(row => {
-              prepareRow(row)
-              return (
-                <tr {...row.getRowProps()}>
-                  {row.cells.map(cell => {
-                    return (
-                      <td {...cell.getCellProps()}> {cell.render('Cell')} </td>
-                    )
-                  })}
-                </tr>
-              )
-            })}
-          </tbody>
-        </table>
-        
+              </thead>
+               {loading?
+                <div style={{marginBottom:0}}>                    
+                    <ClipLoader
+                        color={"#0d6efd"}
+                        loading={loading}        
+                        size = {50}
+    
+                        cssOverride={{marginLeft:'300%',marginRight:'auto',marginTop:'20%'}}          
+                    />
+                </div>
+                :
+                <></>    
+            }
+              
+              <tbody {...getTableBodyProps()}>
+                {rows.map(row => {
+                  prepareRow(row)
+                  return (
+                    <tr {...row.getRowProps()}>
+                      {row.cells.map(cell => {
+                        return (
+                          <td {...cell.getCellProps()}> {cell.render('Cell')} </td>
+                        )
+                      })}
+                    </tr>
+                  )
+                })}
+              </tbody>
+            </table>
         </div>
       {//</TableScrollbar>
 }

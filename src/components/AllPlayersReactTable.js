@@ -1,4 +1,4 @@
-import { useTable, useGlobalFilter } from 'react-table'
+import { useTable, useGlobalFilter, useSortBy } from 'react-table'
 import React,{useState, useEffect} from 'react';
 import PlayerService from '../services/PlayerService';
 import pic from "./images/player1.png";
@@ -8,12 +8,23 @@ import * as RiIcons from 'react-icons/ri';
 import * as SiIcons from 'react-icons/si';
 import { GlobalFilter } from './GlobalFilter';
 import SchoolService from '../services/SchoolService';
+import ClipLoader from "react-spinners/ClipLoader";
 const AllPlayersReactTable=()=>{ 
   const [data,setPlayers]=useState([]);
+  const [loading,setLoading] = useState(false);
   useEffect(()=>{
-      PlayerService.getPlayers().then((response) => {           
-          setPlayers(response.data);
+    async function fetchData() {
+     
+      setLoading(true);
+      //await sleep(4000);
+      await PlayerService.getPlayers().then((response) => {           
+        setPlayers(response.data);
       });
+      setLoading(false);  
+      
+    }
+    fetchData();      
+      
 
   },[]);
 
@@ -87,7 +98,7 @@ const AllPlayersReactTable=()=>{
     prepareRow,
     state,
     setGlobalFilter,
-  } = useTable({ columns, data  },useGlobalFilter)
+  } = useTable({ columns, data  },useGlobalFilter,useSortBy)
 
   const {globalFilter} = state
   return (
@@ -107,11 +118,31 @@ const AllPlayersReactTable=()=>{
             {headerGroups.map(headerGroup => (
               <tr {...headerGroup.getHeaderGroupProps()}>
                 {headerGroup.headers.map(column => (
-                  <th {...column.getHeaderProps()} style = {{background: 'white'}}> {column.render('Header')} </th>
+                  <th {...column.getHeaderProps()} style = {{background: 'white'}}> {column.render('Header')}
+                    <span> 
+                    {column.isSorted
+                      ? column.isSortedDesc
+                        ? ''
+                        : ''
+                      : ''}
+                    </span> 
+                    </th>
                 ))}
               </tr>
             ))}
           </thead>
+          {loading?
+                <div style={{marginBottom:0}}>                    
+                    <ClipLoader
+                        color={"#0d6efd"}
+                        loading={loading}        
+                        size = {50}
+                        cssOverride={{marginLeft:'340%',marginRight:'auto',marginTop:'20%'}}          
+                    />
+                </div>
+                :
+                <></>    
+            }
           <tbody {...getTableBodyProps()}>
             {rows.map(row => {
               prepareRow(row)

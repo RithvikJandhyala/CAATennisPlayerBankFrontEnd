@@ -10,6 +10,8 @@ import 'react-toastify/dist/ReactToastify.css';
 const Players=()=>{ 
     const navigate=useNavigate();
     const [logo,setLogo]=useState("");
+    const[loading,setLoading] = useState(false);
+
     useEffect(()=>{
         if(localStorage.username === undefined){
             navigate("/");
@@ -24,6 +26,7 @@ const Players=()=>{
             });
             localStorage.message ="";
         }
+        
         
     });
    
