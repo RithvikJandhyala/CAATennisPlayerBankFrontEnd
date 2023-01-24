@@ -343,11 +343,14 @@ const AddMatchDataJH=()=> {
                         return  <button type="button" className = "btn btn-primary mb-2" style={{marginRight: 10}}>  <BsIcons.BsPrinter  style={{ width: 20,height:20,marginRight: 5}}/>  Print</button>
                     }}
                     content = {()=> componentRef}
-                    documentTitle = 'new document'
+                    documentTitle = {localStorage.matchDivision}
                     pageStyle = "print"
                 />
                 </div>                
                 <table className = "table table-striped" ref={(e1) => (componentRef = e1)}>
+                <style type="text/css" media="print">{"\
+                                                            @page {\ size: landscape;\ }\
+                                                            "}</style>
                     <thead className = 'stickyrow'>
                         <tr>
                             <th> Matches </th>
