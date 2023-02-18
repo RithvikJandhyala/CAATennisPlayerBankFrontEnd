@@ -2,6 +2,7 @@ import axios from 'axios'
 const SERVER_URL = 'http://localhost:8080';
 const PLAYERS_REST_API_URL = SERVER_URL + '/findAllPlayers';
 const PLAYERS_BY_SCHOOL_REST_API_URL = SERVER_URL + '/findPlayersBySchool';
+const PLAYERS_BY_DIVISION_REST_API_URL = SERVER_URL + '/findPlayersByDivision';
 const PLAYERS_BY_SCHOOL_DIVISION_PLAYERTYPE_REST_API_URL = SERVER_URL + '/findPlayersBySchoolAndDivisionAndPlayerType';
 const PLAYER_CREATE_REST_API_URL = SERVER_URL + '/addPlayer';
 
@@ -14,7 +15,12 @@ class PlayerService {
         var url = PLAYERS_BY_SCHOOL_REST_API_URL+"/"+school;
         return axios.get(url)
        
-    }    
+    }
+    getPlayersByDivision(division){
+        var url = PLAYERS_BY_DIVISION_REST_API_URL+"/"+division;
+        return axios.get(url)
+       
+    }        
     getPlayersBySchoolAndDivisionAndPlayerType(school,division,playerType){
         var url = PLAYERS_BY_SCHOOL_DIVISION_PLAYERTYPE_REST_API_URL+"/"+school+"/"+division+"/"+playerType;
         return axios.get(url)

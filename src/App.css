@@ -128,10 +128,12 @@
   background-position: right center;  
   background-repeat: no-repeat;
   text-indent: 5px;
-  width: 15%;
-  height: 30;
+  width: 200px;
+  height: 35;
   border-radius: 10px;
-  border-color: grey;
+  
+  border-color: gray;
+  
 }
 .icon-button-img{
   fill: var(--text-color);
@@ -221,3 +223,4 @@ font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
   height: 60px;  
 }
 
+.rowC{display:flex; flex-direction:row; align-items: center ;}

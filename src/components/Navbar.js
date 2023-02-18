@@ -32,7 +32,9 @@ function Navbar(props) {
         <IdleModal idle={idle} setIdle={setIdle}></IdleModal>
             <h1 className='header' style={{marginBottom:'0rem'}}>
               <FaIcons.FaBars className='menu-bars' onClick={showSidebar} />{' '}
-              <img src = {pic} className = 'caa' onClick={()=>{navigate('/home')}} alt=""/>
+              <img src = {pic} className = 'caa' onClick={()=>{navigate('/home')}} alt="" style={{  
+                width:'20%',height:'30%',marginRight: '2%',marginLeft: '2%',top:'-2px',position: 'relative',cursor:'pointer'
+              }}/>
               
                 Tennis Platform 
             </h1>
@@ -54,9 +56,9 @@ function Navbar(props) {
             {SidebarData.map((item, index) => {
               return (
                 <li key={index} className={item.cName}>
-                  <Link to={item.path}>
-                    {item.icon}
-                    <span>{item.title}</span>
+                  <Link to={item.path} >
+                    <div style={{marginTop:10,marginLeft:5}}>{item.icon}</div>
+                    <span style={{marginTop:7}}>{item.title}</span>
                   </Link>
                 </li>
               );

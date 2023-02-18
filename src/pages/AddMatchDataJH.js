@@ -284,8 +284,7 @@ const AddMatchDataJH=()=> {
             return;
         }
         
-        setLoading(true);
-        //await sleep(5000);                       
+        setLoading(true);                     
         await MatchService.createMatches(matches).then((response) => {                
                 localStorage.message = "Match Results Added Successfully";
                 navigate('/past-matches');                  
@@ -340,7 +339,7 @@ const AddMatchDataJH=()=> {
                 
                 <ReactToPrint
                     trigger={()=>{
-                        return  <button type="button" className = "btn btn-primary mb-2" style={{marginRight: 10}}>  <BsIcons.BsPrinter  style={{ width: 20,height:20,marginRight: 5}}/>  Print</button>
+                        return  <button type="button" className = "btn btn-primary mb-2" disabled = {loading} style={{marginRight: 10}}>  <BsIcons.BsPrinter  style={{ width: 20,height:20,marginRight: 5}}/>  Print</button>
                     }}
                     content = {()=> componentRef}
                     documentTitle = {localStorage.matchDivision}

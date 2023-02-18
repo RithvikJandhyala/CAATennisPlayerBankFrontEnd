@@ -8,20 +8,42 @@ import * as SiIcons from 'react-icons/si';
 import { GlobalFilter } from './GlobalFilter';
 import SchoolService from '../services/SchoolService';
 import ClipLoader from "react-spinners/ClipLoader";
+import Select from 'react-select';
+const sleep = (milliseconds) => {
+  return new Promise(resolve => setTimeout(resolve, milliseconds))
+}
+const divisions = [
+  { value: 'All Divisions', label: 'All Divisions' },
+  { value: "JH Boys", label: 'JH Boys' },
+  { value: 'JH Girls', label: 'JH Girls' },
+  { value: "HS Boys", label: 'HS Boys' },
+  { value: 'HS Girls', label: 'HS Girls' }
+]
+
 const MatchesSummaryReactTable=()=>{ 
   const [data,setMatchesDaySummary]=useState([]);
   const [loading,setLoading] = useState(false);
+
   useEffect(()=>{
     async function fetchData() {
       setLoading(true);
-      //await sleep(4000);
+      //await sleep(2000);
       await MatchService.getMatchesDaySummary().then((response) => {           
         setMatchesDaySummary(response.data);
       });
       setLoading(false);  
     }
-    fetchData();      
+    fetchData();   
   },[]);
+
+  async function fetchDataByDivision(division) {     
+    setLoading(true);
+    //await sleep(2000);
+    await MatchService.getMatchesDaySummaryByDivision(division).then((response) => {           
+      setMatchesDaySummary(response.data);
+    });
+    setLoading(false);  
+  }
 
   const columns = React.useMemo(
     () => [
@@ -46,10 +68,7 @@ const MatchesSummaryReactTable=()=>{
                     <></>
                   }  
                 </div>
-                <div>  
-                  
-                </div> 
-                </div> ),             
+              </div> ),             
           },
           {
             Header: 'Home Team Points',
@@ -93,7 +112,18 @@ const MatchesSummaryReactTable=()=>{
          <div style={{float:"right",paddingRight:10}}>
           <CSVLink data = {data} filename = 'AllTeamMatches'> <button type="button" className = "btn btn-primary mb-2">  <SiIcons.SiMicrosoftexcel  style={{ width: 20,height:20,marginRight: 5}}/>Download</button> </CSVLink>
         </div>         
-        <GlobalFilter filter = {globalFilter} setFilter = {setGlobalFilter}/>
+        <div className='rowC' >
+              <GlobalFilter filter = {globalFilter} setFilter = {setGlobalFilter} />  
+              <div style={{  width: 200, marginLeft: 10,borderRadius: 10,  borderColor: 'grey'}}>      
+              <Select style={{ width: 500,  borderRadius: 50}}
+                  value={divisions.value}                                           
+                  isSearchable={false}
+                  onChange = {(e) =>{ fetchDataByDivision(e.label);  }} 
+                  options={divisions}
+                  defaultValue={divisions[0]}                  
+              />         
+              </div>                            
+        </div> 
        {// <TableScrollbar height = "70vh"  style={{ marginBottom: 10 ,marginRight: 5,border:'1px solid'}}>
         }
         <div style={{ maxWidth: '99.9%' }}>
@@ -115,7 +145,6 @@ const MatchesSummaryReactTable=()=>{
                         color={"#0d6efd"}
                         loading={loading}        
                         size = {50}
-    
                         cssOverride={{marginLeft:'320%',marginRight:'auto',marginTop:'20%'}}          
                     />
                 </div>
@@ -123,24 +152,28 @@ const MatchesSummaryReactTable=()=>{
                 <></>    
             }
           <tbody {...getTableBodyProps()}>
-            {rows.map(row => {
-              prepareRow(row)
-              return (
-                <tr {...row.getRowProps()}>
-                  {row.cells.map(cell => {
-                    return (
-                      <td {...cell.getCellProps()}> {cell.render('Cell')} </td>
-                    )
-                  })}
-                </tr>
-              )
-            })}
+            {
+            (!loading)?
+              rows.map(row => {
+                prepareRow(row)
+                return (
+                  <tr {...row.getRowProps()}>
+                    {row.cells.map(cell => {
+                      return (
+                        <td {...cell.getCellProps()}> {cell.render('Cell')} </td>
+                      )
+                    })}
+                  </tr>
+                )
+              }):
+              <></>
+            
+            }
           </tbody>
         </table>
         </>
         </div>
-      {//</TableScrollbar>
-}
+
     </div>
   )
 }

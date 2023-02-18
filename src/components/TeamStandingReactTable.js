@@ -9,12 +9,37 @@ import SchoolService from '../services/SchoolService';
 import { ProgressBar } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ClipLoader from "react-spinners/ClipLoader";
+import Select from 'react-select';
+const sleep = (milliseconds) => {
+  return new Promise(resolve => setTimeout(resolve, milliseconds))
+}
+
+const schools = [
+  { value: "BASIS Scottsdale", label: 'BASIS Scottsdale' },
+  { value: 'BASIS Mesa', label: 'BASIS Mesa' },
+  { value: 'BASIS Ahwatukee', label: 'BASIS Ahwatukee' },
+  { value: 'Heritage Academy Maricopa', label: 'Heritage Academy Maricopa' },
+  { value: 'Heritage Academy Mesa', label: 'Heritage Academy Mesa' },
+  { value: 'Benjamin Franklin Charter',label: 'Benjamin Franklin Charter' },
+  { value: 'ALA Gilbert North',  label: 'ALA Gilbert North'},
+  { value: 'BASIS Prescott', label: 'BASIS Prescott' },
+  { value: 'Tri-City Christian',label: 'Tri-City Christian' },
+]
+
+const divisions = [
+  { value: 'All Divisions', label: 'All Divisions' },
+  { value: "JH Boys", label: 'JH Boys' },
+  { value: 'JH Girls', label: 'JH Girls' },
+  { value: "HS Boys", label: 'HS Boys' },
+  { value: 'HS Girls', label: 'HS Girls' }
+]
+
 const TeamStandingReactTable=()=>{ 
     const [data,setTeamStandings]=useState([]);
     const [loading,setLoading] = useState(false);
+
   useEffect(()=>{
     async function fetchData() {
-     
       setLoading(true);
       await MatchService.getTeamStanding().then((response) => {           
         setTeamStandings(response.data);
@@ -23,6 +48,15 @@ const TeamStandingReactTable=()=>{
     }
     fetchData();    
   },[]);
+
+  async function fetchDataByDivision(division) {     
+    setLoading(true);
+    //await sleep(2000);
+    await MatchService.getTeamStandingByDivision(division).then((response) => {           
+      setTeamStandings(response.data);
+    });
+    setLoading(false);  
+  }
 
   const columns = React.useMemo(
     () => [
@@ -104,8 +138,19 @@ const TeamStandingReactTable=()=>{
          <h1 className = "text-center"><BsIcons.BsTrophy style={{ marginBottom: 10 ,marginRight: 5}}/>Team Standings</h1>
          <div style={{float:"right",paddingRight:10}}>
           <CSVLink data = {data} filename = 'Team Standings'> <button type="button" className = "btn btn-primary mb-2">  <SiIcons.SiMicrosoftexcel  style={{ width: 20,height:20,marginRight: 5}}/>Download</button> </CSVLink>
-        </div>         
-        <GlobalFilter filter = {globalFilter} setFilter = {setGlobalFilter}/>
+        </div>   
+        <div className='rowC' >
+              <GlobalFilter filter = {globalFilter} setFilter = {setGlobalFilter} />  
+              <div style={{  width: 200, marginLeft: 10,borderRadius: 10,  borderColor: 'grey'}}>      
+              <Select style={{ width: 500,  borderRadius: 50}}
+                  value={divisions.value}                                           
+                  isSearchable={false}
+                  onChange = {(e) =>{ fetchDataByDivision(e.label);  }} 
+                  options={divisions}
+                  defaultValue={divisions[0]}                  
+              />         
+              </div>                            
+        </div> 
        {// <TableScrollbar height = "70vh"  style={{ marginBottom: 10 ,marginRight: 5,border:'1px solid'}}>
         }
         <div style={{ maxWidth: '99.9%' }}>
@@ -127,16 +172,19 @@ const TeamStandingReactTable=()=>{
                         color={"#0d6efd"}
                         loading={loading}        
                         size = {50}
-    
                         cssOverride={{marginLeft:'360%',marginRight:'auto',marginTop:'20%'}}          
                     />
                 </div>
                 :
-                <></>    
-            }
+                <></>
+          }
          
           <tbody {...getTableBodyProps()}>
-            {rows.map(row => {
+            {
+             (!loading)?
+
+              
+            rows.map(row => {
               prepareRow(row)
               return (
                 <tr {...row.getRowProps()}>
@@ -147,13 +195,16 @@ const TeamStandingReactTable=()=>{
                   })}
                 </tr>
               )
-            })}
+            }):
+            <></>
+            
+            
+            }
           </tbody>
         </table>
         </>
         </div>
-      {//</TableScrollbar>
-}
+
     </div>
   )
 }

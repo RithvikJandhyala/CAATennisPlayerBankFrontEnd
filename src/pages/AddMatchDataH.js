@@ -10,6 +10,7 @@ import SchoolService from '../services/SchoolService';
 import Alert from 'react-bootstrap/Alert';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';  
+import BarLoader from "react-spinners/BarLoader";
 const optionsHomeSingles = [];
 const optionsAwaySingles = [];
 const optionsHomeDoubles = [];
@@ -21,6 +22,9 @@ const NOSELECTION = -1;
 const SINGLES_MAX_SCORE = 2;
 const DOUBLES_MAX_SCORE = 10;
 
+const sleep = ms => new Promise(
+    resolve => setTimeout(resolve, ms)
+  );
 const scoreOptions = [ 
   { value: 0, label: 0},
   { value: 1, label: 1},
@@ -89,6 +93,7 @@ const AddMatchDataH=()=> {
     const [homeTeamLogo,setHomeTeamLogo]=useState("");
     const [awayTeamLogo,setAwayTeamLogo]=useState("");
     const [error, setError] = useState("")
+    const [loading,setLoading] = useState(false);
     useEffect(()=>{
         if(localStorage.username === undefined){
             navigate("/");
@@ -220,7 +225,7 @@ const AddMatchDataH=()=> {
             return parseInt(selPlayer.substring(0,4));        
     }
 
-    const saveMatches = (e) => {
+    const saveMatches = async(e)  => {
         var matches = [];
         matches.length = 0;
         e.preventDefault();
@@ -280,12 +285,18 @@ const AddMatchDataH=()=> {
             });
             localStorage.message ="";
             return;
-        }                                    
-        MatchService.createMatches(matches).then((response) => {
+        }    
+         setLoading(true);
+        //await sleep(5000);                                              
+        await MatchService.createMatches(matches).then((response) => {
                 localStorage.message = "Match results added successfully";
                 navigate('/past-matches');    
-            }).catch(error => {
+            }).catch(error1 => { 
+            console.log(error1);
+            setError("Failed to Create Match");
+            setLoading(false);      
         })
+        setLoading(false); 
     }   
 
     return (
@@ -313,10 +324,24 @@ const AddMatchDataH=()=> {
                     </h5>
                 </div>
                 <h1 className = "text-center">Add {localStorage.matchDivision} Match Results </h1>
+                {loading?
+                <div style={{marginTop: 0}}>
+                    
+                    <BarLoader
+                        color={"#0d6efd"}
+                        loading={loading}        
+                        height = {4}
+                        width = {200}
+                        cssOverride={{marginLeft:'44%'}}          
+                    />
+                </div>
+                :
+                <></>    
+            }
                 <div style={{ float: "right"}}>   
                 <ReactToPrint
                     trigger={()=>{
-                        return <button type="button" className = "btn btn-primary mb-2" style={{marginRight: 10}}>  <BsIcons.BsPrinter  style={{ width: 20,height:20,marginRight: 5}}/>  Print</button> 
+                        return <button type="button" className = "btn btn-primary mb-2" disabled = {loading} style={{marginRight: 10}}>  <BsIcons.BsPrinter  style={{ width: 20,height:20,marginRight: 5}}/>  Print</button> 
                     }}
                     content = {()=> componentRef}
                     documentTitle = {localStorage.matchDivision}
@@ -436,8 +461,8 @@ const AddMatchDataH=()=> {
                 </table>
            
             </form>
-            <button onClick={(e)=>{ saveMatches(e);}} className = "btn btn-primary mb-2 player-right player-left" >Submit</button>
-            <button onClick={(e)=>{ navigate('/home');}} className = "btn btn-primary mb-2 player-right"  >Cancel</button>
+            <button onClick={(e)=>{ saveMatches(e);}} className = "btn btn-primary mb-2 player-right player-left" disabled = {loading}>Submit</button>
+            <button onClick={(e)=>{ navigate('/home');}} className = "btn btn-primary mb-2 player-right"  disabled = {loading} >Cancel</button>
             </section>
         </div>
     )

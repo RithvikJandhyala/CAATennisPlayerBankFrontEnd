@@ -11,6 +11,15 @@ import * as SiIcons from 'react-icons/si';
 import SchoolService from '../services/SchoolService';
 import {useNavigate} from "react-router-dom";
 import ClipLoader from "react-spinners/ClipLoader";
+import Select from 'react-select';
+const divisions = [
+  { value: 'All Divisions', label: 'All Divisions' },
+  { value: "JH Boys", label: 'JH Boys' },
+  { value: 'JH Girls', label: 'JH Girls' },
+  { value: "HS Boys", label: 'HS Boys' },
+  { value: 'HS Girls', label: 'HS Girls' }
+]
+
 const PlayerMatchesReactTable=()=>{ 
   const [data,setMatches]=useState([]);
   const navigate=useNavigate();
@@ -21,7 +30,6 @@ const PlayerMatchesReactTable=()=>{
 
   useEffect(()=>{
     async function fetchData() {
-     
       setLoading(true);
       //await sleep(4000);
       await MatchService.getMatches().then((response) => {           
@@ -32,6 +40,16 @@ const PlayerMatchesReactTable=()=>{
     }
     fetchData();      
   },[]);
+  async function fetchDataByDivision(division) {     
+    setLoading(true);
+    //await sleep(2000);
+    await MatchService.getMatchesByDivision(division).then((response) => {           
+      setMatches(response.data);
+    });
+    setLoading(false);  
+  }
+
+
 
   const columns = React.useMemo(
     () => [
@@ -145,8 +163,19 @@ const PlayerMatchesReactTable=()=>{
          <div style={{float:"right",paddingRight:10}}>
             
             <CSVLink data = {data} filename = 'AllPlayerMatches'> <button type="button" className = "btn btn-primary mb-2">  <SiIcons.SiMicrosoftexcel  style={{ width: 20,height:20,marginRight: 5}}/>Download</button> </CSVLink>
-        </div>         
-        <GlobalFilter filter = {globalFilter} setFilter = {setGlobalFilter}/>
+        </div> 
+        <div className='rowC' >
+              <GlobalFilter filter = {globalFilter} setFilter = {setGlobalFilter} />  
+              <div style={{  width: 200, marginLeft: 10,borderRadius: 10,  borderColor: 'grey'}}>      
+              <Select style={{ width: 500,  borderRadius: 50}}
+                  value={divisions.value}                                           
+                  isSearchable={false}
+                  onChange = {(e) =>{ fetchDataByDivision(e.label);  }} 
+                  options={divisions}
+                  defaultValue={divisions[0]}                  
+              />         
+              </div>                            
+        </div>
        {// <TableScrollbar height = "70vh"  style={{ marginBottom: 10 ,marginRight: 5,border:'1px solid'}}>
         }
         
@@ -178,18 +207,23 @@ const PlayerMatchesReactTable=()=>{
             }
          
           <tbody {...getTableBodyProps()}>
-            {rows.map(row => {
-              prepareRow(row)
-              return (
-                <tr {...row.getRowProps()}>
-                  {row.cells.map(cell => {
-                    return (
-                      <td {...cell.getCellProps()}> {cell.render('Cell')} </td>
-                    )
-                  })}
-                </tr>
-              )
-            })}
+            {
+              (!loading)?
+              rows.map(row => {
+                prepareRow(row)
+                return (
+                  <tr {...row.getRowProps()}>
+                    {row.cells.map(cell => {
+                      return (
+                        <td {...cell.getCellProps()}> {cell.render('Cell')} </td>
+                      )
+                    })}
+                  </tr>
+                )
+              })
+              :
+              <></>
+          }
           </tbody>
         </table>
         </>

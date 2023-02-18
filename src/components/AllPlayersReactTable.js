@@ -9,6 +9,18 @@ import * as SiIcons from 'react-icons/si';
 import { GlobalFilter } from './GlobalFilter';
 import SchoolService from '../services/SchoolService';
 import ClipLoader from "react-spinners/ClipLoader";
+import Select from 'react-select';
+const sleep = (milliseconds) => {
+  return new Promise(resolve => setTimeout(resolve, milliseconds))
+}
+const divisions = [
+  { value: 'All Divisions', label: 'All Divisions' },
+  { value: "JH Boys", label: 'JH Boys' },
+  { value: 'JH Girls', label: 'JH Girls' },
+  { value: "HS Boys", label: 'HS Boys' },
+  { value: 'HS Girls', label: 'HS Girls' }
+]
+
 const AllPlayersReactTable=()=>{ 
   const [data,setPlayers]=useState([]);
   const [loading,setLoading] = useState(false);
@@ -27,6 +39,15 @@ const AllPlayersReactTable=()=>{
       
 
   },[]);
+  async function fetchDataByDivision(division) {     
+    setLoading(true);
+    //await sleep(2000);
+    await PlayerService.getPlayersByDivision(division).then((response) => {           
+      setPlayers(response.data);
+    });
+    setLoading(false);  
+  }
+
 
   const columns = React.useMemo(
     () => [
@@ -107,7 +128,25 @@ const AllPlayersReactTable=()=>{
         <div style={{float:"right",paddingRight:10}}>
           <CSVLink data = {data} filename = 'AllPlayers'> <button type="button" className = "btn btn-primary mb-2">  <SiIcons.SiMicrosoftexcel  style={{ width: 20,height:20,marginRight: 5}}/>Download</button> </CSVLink>
         </div>           
-        <GlobalFilter filter = {globalFilter} setFilter = {setGlobalFilter}/>
+        <div className='rowC' >
+              <GlobalFilter filter = {globalFilter} setFilter = {setGlobalFilter} />  
+              <div style={{  width: 200, marginLeft: 10,borderRadius: 10,  borderColor: 'grey'}}>      
+              <Select 
+                  value={divisions.value}                                           
+                  isSearchable={false}
+                  onChange = {(e) =>{ fetchDataByDivision(e.label);  }} 
+                  options={divisions}
+                  defaultValue={divisions[0]}
+                  styles={{
+                    control: (baseStyles, state) => ({
+                      ...baseStyles,
+                      borderRadius: "20px"
+                    })
+                  }}
+                          
+              />         
+              </div>                            
+        </div>
        {// <TableScrollbar height = "70vh"  style={{ marginBottom: 10 ,marginRight: 5,border:'1px solid'}}>
         }
         <div style={{ maxWidth: '99.9%' }}>
@@ -144,18 +183,23 @@ const AllPlayersReactTable=()=>{
                 <></>    
             }
           <tbody {...getTableBodyProps()}>
-            {rows.map(row => {
-              prepareRow(row)
-              return (
-                <tr {...row.getRowProps()}>
-                  {row.cells.map(cell => {
-                    return (
-                      <td {...cell.getCellProps()}> {cell.render('Cell')} </td>
-                    )
-                  })}
-                </tr>
-              )
-            })}
+          {
+              (!loading)?
+              rows.map(row => {
+                prepareRow(row)
+                return (
+                  <tr {...row.getRowProps()}>
+                    {row.cells.map(cell => {
+                      return (
+                        <td {...cell.getCellProps()}> {cell.render('Cell')} </td>
+                      )
+                    })}
+                  </tr>
+                )
+              })
+              :
+              <></>
+          }
           </tbody>
         </table>
         </>
