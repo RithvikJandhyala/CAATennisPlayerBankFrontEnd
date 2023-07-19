@@ -99,7 +99,6 @@ const AddPlayer = () => {
            
      <br/> {loading?
                 <div style={{marginBottom:0}}>
-                    
                     <BarLoader
                         color={"#0d6efd"}
                         loading={loading}        

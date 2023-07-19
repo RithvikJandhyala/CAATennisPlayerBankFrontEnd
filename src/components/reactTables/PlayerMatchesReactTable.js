@@ -1,14 +1,14 @@
 import { useTable, useGlobalFilter } from 'react-table'
 import React,{useState, useEffect} from 'react';
-import MatchService from '../services/MatchService';
+import MatchService from '../../services/MatchService';
 import {CSVLink} from 'react-csv';
-import pic from "./images/player1.png";
-import win from "./images/check.png";
-import Doubles from "./images/doubles.png";
+import pic from "../images/player1.png";
+import Doubles from "../images/doubles.png"
+import win from "../images/check.png";
 import * as GiIcons from 'react-icons/gi';
-import { GlobalFilter } from './GlobalFilter';
+import { GlobalFilter } from '../GlobalFilter.js';
 import * as SiIcons from 'react-icons/si';
-import SchoolService from '../services/SchoolService';
+import SchoolService from '../../services/SchoolService';
 import {useNavigate} from "react-router-dom";
 import ClipLoader from "react-spinners/ClipLoader";
 import Select from 'react-select';
@@ -20,6 +20,7 @@ const divisions = [
   { value: 'HS Girls', label: 'HS Girls' }
 ]
 
+
 const PlayerMatchesReactTable=()=>{ 
   const [data,setMatches]=useState([]);
   const navigate=useNavigate();
@@ -27,7 +28,18 @@ const PlayerMatchesReactTable=()=>{
   const sleep = ms => new Promise(
     resolve => setTimeout(resolve, ms)
   );
-
+  const schoolImages = [];
+  // get Schools
+  SchoolService.getSchools().then((response) => {           
+    for(var i = 0; i < response.data.length; i++) 
+    {
+            {schoolImages.push({
+                name: response.data[i].name,
+                image: response.data[i].image,
+            });
+        }
+    }
+  });
   useEffect(()=>{
     async function fetchData() {
       setLoading(true);
@@ -48,7 +60,14 @@ const PlayerMatchesReactTable=()=>{
     });
     setLoading(false);  
   }
-
+  const getImage = (schoolName) => {    
+    const foundSchool = schoolImages.find(school => schoolName === school.name);
+    if (foundSchool) {
+      console.log("True:", schoolName, foundSchool.name);
+      return foundSchool.image;
+    }    
+    return null;
+};
 
 
   const columns = React.useMemo(
@@ -73,8 +92,9 @@ const PlayerMatchesReactTable=()=>{
             Header: 'Home Team',
             accessor: 'homeTeam',   
             Cell: tableProps => (
-                <div>             
-                    <img  src= {require('./images/'+SchoolService.getSchoolImg(tableProps.row.original.homeTeam))} style={{ width: 30, height:30,marginRight: 10 }} className = 'player1' /> 
+                <div>      
+                   <img src={`data:image/jpeg;base64,${getImage(tableProps.row.original.homeTeam)}`}  style={{ width: 30, height:30,marginRight: 10 }} className = 'player1'/>       
+                   
                     {tableProps.row.original.homeTeam}  
                 </div> ),     
           },
@@ -109,8 +129,8 @@ const PlayerMatchesReactTable=()=>{
             Header: 'Away Team',
             accessor: 'awayTeam',    
             Cell: tableProps => (
-                <div>             
-                    <img  src= {require('./images/'+SchoolService.getSchoolImg(tableProps.row.original.awayTeam))} style={{ width: 30, height:30,marginRight: 10 }} className = 'player1' /> 
+                <div>       
+                   <img src={`data:image/jpeg;base64,${getImage(tableProps.row.original.awayTeam)}`}  style={{ width: 30, height:30,marginRight: 10 }} className = 'player1'/>      
                     {tableProps.row.original.awayTeam}  
                 </div> 
                 
@@ -172,7 +192,13 @@ const PlayerMatchesReactTable=()=>{
                   isSearchable={false}
                   onChange = {(e) =>{ fetchDataByDivision(e.label);  }} 
                   options={divisions}
-                  defaultValue={divisions[0]}                  
+                  defaultValue={divisions[0]}
+                  styles={{
+                    control: (baseStyles, state) => ({
+                      ...baseStyles,
+                      borderRadius: "20px"
+                    })
+                  }}                  
               />         
               </div>                            
         </div>

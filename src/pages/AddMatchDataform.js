@@ -4,29 +4,26 @@ import Navbar from '../components/Navbar';
 import Select from 'react-select';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import SchoolService from '../services/SchoolService';
 
 
 const AddMatchDataform = () => {
-    const options = [
-        { value: "BASIS Scottsdale", label: 'BASIS Scottsdale' },
-        { value: 'BASIS Mesa', label: 'BASIS Mesa' },
-        { value: 'BASIS Ahwatukee', label: 'BASIS Ahwatukee' },
-        { value: 'Heritage Academy Maricopa', label: 'Heritage Academy Maricopa' },
-        { value: 'Heritage Academy Mesa', label: 'Heritage Academy Mesa' },
-        { value: 'Benjamin Franklin Charter',label: 'Benjamin Franklin Charter' },
-        { value: 'ALA Gilbert North',  label: 'ALA Gilbert North'},
-        { value: 'BASIS Prescott', label: 'BASIS Prescott' },
-        { value: 'Tri-City Christian',label: 'Tri-City Christian' },
-    ]
-
+    const options = [];
+    SchoolService.getSchools().then((response) => {           
+        for(var i = 0; i < response.data.length; i++) 
+        {
+            if(response.data[i].name !== localStorage.school)
+                {options.push({
+                    value: response.data[i].name,
+                    label: response.data[i].name,
+                });
+            }
+        }
+    });
+      
     const inputAwayTeam = useRef();
     const inputDivision = useRef();
-    const awayTeams = [];
-    for(var i = 0; i < options.length; i++) 
-    {
-        if(options[i].value !== localStorage.school)
-            awayTeams.push(options[i]);
-    }
+    
    
     const navigate=useNavigate();
     useEffect(()=>{
@@ -61,7 +58,7 @@ const AddMatchDataform = () => {
             console.log(matchDate);
             return valid;
       }
-
+      
     return(
         <div>
             <header>
@@ -92,7 +89,7 @@ const AddMatchDataform = () => {
                                             type = "text"                                            
                                             placeholder = "Pick Away Team"
                                             onChange = {(e) =>{ setAwayTeam(e.label) }} 
-                                            options={awayTeams}
+                                            options={options}
                                             required
                                         /> 
                                     <br/>

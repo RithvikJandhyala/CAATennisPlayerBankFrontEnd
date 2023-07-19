@@ -51,7 +51,16 @@ function Login() {
             localStorage.firstName = response.data.firstName;
             localStorage.lastName = response.data.lastName;
             localStorage.username = username;
-            navigate('/home');     
+            localStorage.role = response.data.role;
+            if(response.data.role != "Admin"){
+                navigate('/home'); 
+                window.location.reload(false); 
+            }
+            else{
+                navigate('/all-players');
+                window.location.reload(false);
+            }
+                   
         }      
     }).catch(error1 => { 
         setError("Failed to log in");

@@ -4,13 +4,16 @@ import * as B from 'react-icons/md';
 import * as GiIcons from 'react-icons/gi';
 import * as RiIcons from 'react-icons/ri';
 import * as BsIcons from 'react-icons/bs';
+import * as HiIcons from 'react-icons/hi';
+import * as FaIcons from 'react-icons/fa';
+
 
 export const SidebarData = [
   {
-    title: 'My Players',
+    title: (localStorage.role != 'Admin' )? 'My Players':' ',
     path: '/home',
-    icon:  <AiIcons.AiOutlineUser />,
-    cName: 'nav-text'
+    icon:    (localStorage.role != 'Admin' )? <AiIcons.AiOutlineUser />:<></>,
+    cName: (localStorage.role != 'Admin' )? 'nav-text':' '
   },
   {
     title: 'All Players',
@@ -35,6 +38,18 @@ export const SidebarData = [
     path: '/team-standing',
     icon:  <BsIcons.BsTrophy/>,
     cName: 'nav-text'
+  },
+  {
+    title: (localStorage.role == 'Admin' )? 'User Management':' ',
+    path: '/all-users',
+    icon:  (localStorage.role == 'Admin' )? <HiIcons.HiOutlineUserCircle />:<></>,
+    cName: (localStorage.role == 'Admin' )? 'nav-text':' '
+  },
+  {
+    title: (localStorage.role == 'Admin' )? 'Schools':' ',
+    path: '/schools',
+    icon:  (localStorage.role == 'Admin' )? <FaIcons.FaSchool/>:<></>,
+    cName: (localStorage.role == 'Admin' )? 'nav-text':' '
   },
   
 ];

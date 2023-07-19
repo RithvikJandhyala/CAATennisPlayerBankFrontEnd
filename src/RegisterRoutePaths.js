@@ -12,6 +12,10 @@ import PlayerMatches from './pages/PlayerMatches';
 import MatchesSummary from './pages/MatchesSummary';
 import TeamStanding from './pages/TeamStanding';
 import Help from './pages/Help';
+import AddUser from './pages/AddUser';
+import AllUsers from './pages/AllUsers';
+import Schools from './pages/Schools';
+import AddSchool from './pages/AddSchool';
 
 
 function RegisterRoutePaths() { 
@@ -25,10 +29,14 @@ function RegisterRoutePaths() {
         <Route path = "/add-match-data-h" element ={<AddMatchDataH />}/>
         <Route path = "/add-match-data-form" element ={<AddMatchDataform />}/>
         <Route path = "/add-player" element ={<AddPlayer />}/>
+        <Route path = "/add-user" element ={<AddUser />}/>
+        <Route path = "/add-school" element ={<AddSchool />}/>
         <Route path = "/all-players" element ={<AllPlayers />}/> 
+        <Route path = "/all-users" element ={<AllUsers />}/>
         <Route path = "/past-matches" element ={<PlayerMatches />}/>
         <Route path = "/matches-summary" element ={<MatchesSummary />}/>
         <Route path = "/team-standing" element ={<TeamStanding />}/>
+        <Route path = "/schools" element ={<Schools />}/>
         <Route path = "/help" element ={<Help/>}/>           
       </Routes> 
        

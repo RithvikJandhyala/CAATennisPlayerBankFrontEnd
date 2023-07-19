@@ -5,6 +5,7 @@ const PLAYERS_BY_SCHOOL_REST_API_URL = SERVER_URL + '/findPlayersBySchool';
 const PLAYERS_BY_DIVISION_REST_API_URL = SERVER_URL + '/findPlayersByDivision';
 const PLAYERS_BY_SCHOOL_DIVISION_PLAYERTYPE_REST_API_URL = SERVER_URL + '/findPlayersBySchoolAndDivisionAndPlayerType';
 const PLAYER_CREATE_REST_API_URL = SERVER_URL + '/addPlayer';
+const PLAYER_DELETE = SERVER_URL + '/deletePlayer'
 
 
 class PlayerService {
@@ -28,6 +29,9 @@ class PlayerService {
     }    
     createPlayer(player){
         return axios.post(PLAYER_CREATE_REST_API_URL,player)
+    }
+    deletePlayer(id){
+        return axios.get(PLAYER_DELETE+"/"+id)
     }
 
 }

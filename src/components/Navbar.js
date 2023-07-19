@@ -30,13 +30,14 @@ function Navbar(props) {
         //ref={menuRef}
         >
         <IdleModal idle={idle} setIdle={setIdle}></IdleModal>
-            <h1 className='header' style={{marginBottom:'0rem'}}>
+            <h1 className='header' style={{marginBottom:'0rem', width: 600}}>
               <FaIcons.FaBars className='menu-bars' onClick={showSidebar} />{' '}
-              <img src = {pic} className = 'caa' onClick={()=>{navigate('/home')}} alt="" style={{  
-                width:'20%',height:'30%',marginRight: '2%',marginLeft: '2%',top:'-2px',position: 'relative',cursor:'pointer'
+              <img src = {pic} className = 'caa' onClick={()=>{ (localStorage.role != 'Admin')? navigate('/home') : navigate('/all-players')}} alt="" style={{  
+                width:80,height:32, maxWidth: "40%",
+                maxHeight: "40",marginRight: '2%',marginLeft: '2%',top:'-2px',position: 'relative',cursor:'pointer'
               }}/>
               
-                Tennis Platform 
+               {(localStorage.role == "Admin")? 'Tennis Platform Admin' : 'Tennis Platform '} 
             </h1>
             <div style={{width: 45,height:45, marginRight: 20,cursor: 'pointer',color:'white',fontSize:20}} className = "icon-button"onClick = {()=> setOpenProfile
             ((prev) => !prev)} >{localStorage.firstName !== undefined?localStorage.firstName.substring(0,1)+""+localStorage.lastName.substring(0,1):""}
@@ -56,10 +57,12 @@ function Navbar(props) {
             {SidebarData.map((item, index) => {
               return (
                 <li key={index} className={item.cName}>
+                
                   <Link to={item.path} >
                     <div style={{marginTop:10,marginLeft:5}}>{item.icon}</div>
                     <span style={{marginTop:7}}>{item.title}</span>
                   </Link>
+                 
                 </li>
               );
             })}

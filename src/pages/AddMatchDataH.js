@@ -94,13 +94,14 @@ const AddMatchDataH=()=> {
     const [awayTeamLogo,setAwayTeamLogo]=useState("");
     const [error, setError] = useState("")
     const [loading,setLoading] = useState(false);
+    const [schoolImages, setSchoolImages] = useState([]);
+    const [isSchoolImagesLoaded, setIsSchoolImagesLoaded] = useState(false);
+
     useEffect(()=>{
         if(localStorage.username === undefined){
             navigate("/");
         }
         else{
-            setHomeTeamLogo(require('../components/images/'+SchoolService.getSchoolImg(localStorage.school)));
-            setAwayTeamLogo(require('../components/images/'+SchoolService.getSchoolImg(localStorage.awayTeam)));
             fetchData();
         }
         //reset matches
@@ -117,9 +118,32 @@ const AddMatchDataH=()=> {
             doublePlayerRows[i].option2 = "";
             doublePlayerRows[i].score1 = "";
             doublePlayerRows[i].score2 = "";
-        }         
+        } 
+        
+            // get Schools
+            SchoolService.getSchools().then((response) => {                 
+                for(var i = 0; i < response.data.length; i++) 
+                {
+                        {schoolImages.push({
+                            name: response.data[i].name,
+                            image: response.data[i].image,
+                        });
+                    }
+                }
+                setSchoolImages(schoolImages);
+                setIsSchoolImagesLoaded(true);    
+            });        
  
     },[]);
+    const getImage = (schoolName) => {    
+        console.log(schoolImages);
+        const foundSchool = schoolImages.find(school => schoolName === school.name);
+        if (foundSchool) {
+        return foundSchool.image;
+        }    
+        return null;
+    };
+   
    
 
     const fetchData = () => {
@@ -183,6 +207,10 @@ const AddMatchDataH=()=> {
     }
 
     function isValidMatch(match,matchType, maxScore, num){
+        if (match.player1ID === NOSHOW )
+            match.player1Score =0;
+        if (match.player2ID === NOSHOW )
+            match.player2Score =0;
         // No show should have value 0
        if ((match.player1ID === NOSHOW &&  match.player1Score !==0) || (match.player2ID === NOSHOW &&  match.player2Score !==0)){
             setError(matchType + " "+ num + ": Set score to 0 for No Show");
@@ -313,13 +341,18 @@ const AddMatchDataH=()=> {
                     <h5 className = "userdetail">
                         <span className = "name">
                             Home Team: {localStorage.school} 
-                            <img  src= {homeTeamLogo} style={{ width: 30, height:30,marginLeft: 5 }}  /> 
+                            {isSchoolImagesLoaded  && (
+                                    <img src={`data:image/jpeg;base64,${getImage(localStorage.school)}`}  style={{ width: 30, height:30,marginLeft: 5 }} className = 'player1'/>  
+                                )}           
                             <br/><br/>
                             Match Date: {localStorage.matchDate}
                         </span>
                         <span className = "school">
-                            Away Team: {localStorage.awayTeam}                    
-                            <img  src= {awayTeamLogo} style={{ width: 30, height:30,marginLeft: 10 }} className = 'player1' /> 
+                            Away Team: {localStorage.awayTeam}  
+                            {isSchoolImagesLoaded  && (
+                                    <img src={`data:image/jpeg;base64,${getImage(localStorage.awayTeam)}`}  style={{ width: 30, height:30,marginLeft: 5 }} className = 'player1'/>  
+                                )}           
+                            <br/><br/>                  
                         </span>
                     </h5>
                 </div>

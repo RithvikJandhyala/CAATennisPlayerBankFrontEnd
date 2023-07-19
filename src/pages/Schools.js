@@ -1,18 +1,22 @@
 import React,{useEffect} from 'react'
 import Navbar from '../components/Navbar';
-import PlayerMatchesReactTable from '../components/reactTables/PlayerMatchesReactTable';
+import SchoolsReactTable from '../components/reactTables/SchoolsReactTable';
 import {useNavigate} from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+    import 'react-toastify/dist/ReactToastify.css';
 
-const PlayerMatches=()=>{
+
+const Schools=()=>{
     const navigate=useNavigate();
     useEffect(()=>{
         if(localStorage.username === undefined){
             navigate("/");
         }
-        // show any toast messages
-        if(localStorage.message !== undefined && localStorage.message.length > 0){
+        if(localStorage.role != "Admin"){
+            navigate("/home");
+        }
+         // show any toast messages
+         if(localStorage.message !== undefined && localStorage.message.length > 0 && localStorage.role == "Admin"){
             toast.success(localStorage.message, {
                 position: toast.POSITION.TOP_CENTER
             });
@@ -20,15 +24,17 @@ const PlayerMatches=()=>{
         }
     }); 
     return(
-        <div>
+        <div> 
             <header>
                 <Navbar /> 
             </header>
             <section>
-                <ToastContainer/> 
-                <PlayerMatchesReactTable/>
+                <ToastContainer/>
+                <SchoolsReactTable/>
             </section>
+    
         </div>
     )
 }
-export default PlayerMatches
+
+export default Schools;

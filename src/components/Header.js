@@ -10,7 +10,7 @@ function Header(props) {
         <div className='navbar'>
             <h1 className='header'>
                <img src = {pic} className = 'caa2' alt = ""/>
-                Tennis Platform    
+              Tennis Platform
             </h1>
                
         </div>         
