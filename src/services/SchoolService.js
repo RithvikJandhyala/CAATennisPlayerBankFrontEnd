@@ -1,6 +1,6 @@
 import axios from 'axios'
 import {useState} from 'react'
-const SERVER_URL = 'http://localhost:8080';
+const SERVER_URL = 'https://caatennis.herokuapp.com';
 const SCHOOLS_REST_API_URL = SERVER_URL + '/findAllSchools';
 const SCHOOLS_CREATE_REST_API_URL = SERVER_URL + '/addSchool';
 const SCHOOL_DELETE = SERVER_URL + '/deleteSchool';
