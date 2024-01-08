@@ -1,5 +1,5 @@
 import axios from 'axios'
-const SERVER_URL = 'http://localhost:8080';
+const SERVER_URL = 'https://caatennis.herokuapp.com';
 const PLAYERS_REST_API_URL = SERVER_URL + '/findAllPlayers';
 const PLAYERS_BY_SCHOOL_REST_API_URL = SERVER_URL + '/findPlayersBySchool';
 const PLAYERS_BY_DIVISION_REST_API_URL = SERVER_URL + '/findPlayersByDivision';
