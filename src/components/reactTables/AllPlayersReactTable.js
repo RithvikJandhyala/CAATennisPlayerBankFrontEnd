@@ -31,21 +31,22 @@ const AllPlayersReactTable=()=>{
   const [error, setError] = useState("");
   const navigate=useNavigate();
   const schoolImages = [];
-  // get Schools
-  SchoolService.getSchools().then((response) => {           
-    for(var i = 0; i < response.data.length; i++) 
-    {
-            {schoolImages.push({
-                name: response.data[i].name,
-                image: response.data[i].image,
-            });
-        }
-    }
-  });
+  
   
   useEffect(()=>{
     async function fetchData() {     
       setLoading(true);
+      // get Schools
+        await SchoolService.getSchools().then((response) => {           
+          for(var i = 0; i < response.data.length; i++) 
+          {
+                  schoolImages.push({
+                      name: response.data[i].name,
+                      image: response.data[i].image,
+                  });
+              
+          }
+        });
       await PlayerService.getPlayers().then((response) => {           
         setPlayers(response.data);
       });

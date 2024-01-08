@@ -24,23 +24,25 @@ const AllUsersReactTable=()=>{
   const [error, setError] = useState("");
   const navigate=useNavigate();
   const schoolImages = [];
-  // get Schools
-  SchoolService.getSchools().then((response) => {           
-    for(var i = 0; i < response.data.length; i++) 
-    {
-            {schoolImages.push({
-                name: response.data[i].name,
-                image: response.data[i].image,
-            });
-        }
-    }
-  });
+  
   
   useEffect(()=>{
     async function fetchData() {
-     
+    
       setLoading(true);
       //await sleep(4000);
+      //get Schools
+      await SchoolService.getSchools().then((response) => {           
+        for(var i = 0; i < response.data.length; i++) 
+        {
+                {schoolImages.push({
+                    name: response.data[i].name,
+                    image: response.data[i].image,
+                });
+            }
+        }
+      });
+      
       await UserService.getUsers().then((response) => {           
         setUsers(response.data);
       });

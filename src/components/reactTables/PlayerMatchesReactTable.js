@@ -30,20 +30,21 @@ const PlayerMatchesReactTable=()=>{
   );
   const schoolImages = [];
   // get Schools
-  SchoolService.getSchools().then((response) => {           
-    for(var i = 0; i < response.data.length; i++) 
-    {
-            {schoolImages.push({
-                name: response.data[i].name,
-                image: response.data[i].image,
-            });
-        }
-    }
-  });
+  
   useEffect(()=>{
     async function fetchData() {
       setLoading(true);
       //await sleep(4000);
+      await SchoolService.getSchools().then((response) => {           
+        for(var i = 0; i < response.data.length; i++) 
+        {
+                {schoolImages.push({
+                    name: response.data[i].name,
+                    image: response.data[i].image,
+                });
+            }
+        }
+      });
       await MatchService.getMatches().then((response) => {           
           setMatches(response.data);
       });

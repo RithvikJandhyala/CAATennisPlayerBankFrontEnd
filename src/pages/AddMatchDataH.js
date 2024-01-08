@@ -250,7 +250,8 @@ const AddMatchDataH=()=> {
         else if(selPlayer === "")
             return NOSELECTION;
         else
-            return parseInt(selPlayer.substring(0,4));        
+            var dashIndex = selPlayer.indexOf("-") 
+            return parseInt(selPlayer.substring(0,dashIndex-1));    
     }
 
     const saveMatches = async(e)  => {
