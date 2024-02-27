@@ -98,7 +98,7 @@ const TeamStandingReactTable=()=>{
            //navigate('/matches-summary');
     } catch (error) {
       console.log(error);
-      setError('Failed to Delete Match');
+      setError('Failed to reset season');
     } finally {
       setLoading(false);
       window.location.reload(false);
